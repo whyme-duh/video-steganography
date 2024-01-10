@@ -1,0 +1,13 @@
+{% extends 'core/index.html' %}
+
+{% block content %}
+
+
+{{message}}
+<video width="750" height="500" controls>
+    <source src="/{{request.session.encoded_video}}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <a href="/{{request.session.encoded_video}}" download>Download Video</a>
+{{request.session.encoded_video}}
+{% endblock %}

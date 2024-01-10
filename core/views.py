@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from . models import Encoding
 from . forms import DecodeForm, EncodeForm
 from PIL import Image
@@ -169,21 +169,7 @@ def encryption(plaintext, key):
 # In[18]:
 
 
-def decryption(ciphertext):
-    print("Enter the key : ")
-    key=input()
-    key=preparing_key_array(key)
 
-    S=KSA(key)
-
-    keystream=np.array(PRGA(S,len(ciphertext)))
-    ciphertext=np.array([ord(i) for i in ciphertext])
-
-    decoded=keystream^ciphertext
-    dtext=''
-    for c in decoded:
-        dtext=dtext+chr(c)
-    return dtext
 
 
 # In[19]:
@@ -222,7 +208,62 @@ def embed(frame, msg, key): #  here msg is the parameter that is sent to this fu
 # In[20]:
 
 
-def extract(frame):
+
+# In[21]:
+
+
+def encode_vid_data(request, file, frame_no, msg, key):
+    global frame_
+    cap=cv2.VideoCapture(file)
+    vidcap = cv2.VideoCapture(file)    
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    frame_width = int(vidcap.get(3))
+    frame_height = int(vidcap.get(4))
+    size = (frame_width, frame_height)
+    out = cv2.VideoWriter('media/videos/default.mp4',fourcc, 25.0, size)
+    max_frame=0;
+    while(cap.isOpened()):
+        ret, frame = cap.read()
+        if ret == False:
+            break
+        max_frame+=1
+    cap.release()
+    print("Total number of Frame in selected Video :",max_frame)
+    if (frame_no > max_frame or frame_no < 0):
+        print("error")
+    # print("Enter the frame number where you want to embed data : ")
+    n=frame_no
+    frame_number = 0
+    while(vidcap.isOpened()):
+        frame_number += 1
+        ret, frame = vidcap.read()
+        if ret == False:
+            break
+        if frame_number == n:    
+            change_frame_with = embed(frame, msg, key)
+            frame_ = change_frame_with 
+            frame = change_frame_with
+        out.write(frame)
+    request.session['encoded_video'] = '/videos/default.mp4'
+    print("\nEncoded the data successfully in the video file.")
+    return frame_
+
+def decryption(ciphertext, secret_message):
+    key=secret_message
+    key=preparing_key_array(key)
+
+    S=KSA(key)
+    print(secret_message)
+    keystream=np.array(PRGA(S,len(ciphertext)))
+    ciphertext=np.array([ord(i) for i in ciphertext])
+
+    decoded=keystream^ciphertext
+    dtext=''
+    for c in decoded:
+        dtext=dtext+chr(c)
+    return dtext
+
+def extract(frame, secret_message):
     data_binary = ""
     final_decoded_msg = ""
     for i in frame:
@@ -238,73 +279,43 @@ def extract(frame):
                 if decoded_data[-5:] == "*^*^*": 
                     for i in range(0,len(decoded_data)-5):
                         final_decoded_msg += decoded_data[i]
-                    final_decoded_msg = decryption(final_decoded_msg)
+                    final_decoded_msg = decryption(final_decoded_msg, secret_message)
                     print("\n\nThe Encoded data which was hidden in the Video was :--\n",final_decoded_msg)
-                    return 
+                    return final_decoded_msg
+                else:
+                    print('not found')
 
 
-# In[21]:
-
-
-def encode_vid_data(file, frame_no, msg, key):
-    cap=cv2.VideoCapture(file)
-    vidcap = cv2.VideoCapture(file)    
-    fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    frame_width = int(vidcap.get(3))
-    frame_height = int(vidcap.get(4))
-    size = (frame_width, frame_height)
-    print('fourcc' , fourcc)
-    print('size' , size)
-    out = cv2.VideoWriter('media/encoded/steg.mp4',fourcc, 25.0, size)
-    max_frame=0;
-    while(cap.isOpened()):
-        ret, frame = cap.read()
-        if ret == False:
-            break
-        max_frame+=1
-    cap.release()
-    print("Total number of Frame in selected Video :",max_frame)
-    if (frame_no > max_frame or frame_no < max_frame):
-        print("error")
-    # print("Enter the frame number where you want to embed data : ")
-    n=frame_no
-    frame_number = 0
-    while(vidcap.isOpened()):
-        frame_number += 1
-        ret, frame = vidcap.read()
-        if ret == False:
-            break
-        if frame_number == n:    
-            change_frame_with = embed(frame, msg, key)
-            frame_ = change_frame_with
-            frame = change_frame_with
-        out.write(frame)
-    print("\nEncoded the data successfully in the video file.")
 
 
 # In[22]:
 
 
-def decode_vid_data(frame):
-    cap = cv2.VideoCapture('stego_video.mp4')
+def decode_vid_data(request,file, frame, n, secret_message):
+    print(file)
+    message = None
+    cap = cv2.VideoCapture(file)
     max_frame=0;
     while(cap.isOpened()):
         ret, frame = cap.read()
         if ret == False:
             break
         max_frame+=1
-    print("Total number of Frame in selected Video :",max_frame)
-    n=int(input())
-    vidcap = cv2.VideoCapture('stego_video.mp4')
+    # print("Total number of Frame in selected Video :",max_frame)
+    # n=int(input())
+    vidcap = cv2.VideoCapture(file)
     frame_number = 0
     while(vidcap.isOpened()):
+        print('hello')
         frame_number += 1
         ret, frame = vidcap.read()
         if ret == False:
             break
         if frame_number == n:
-            extract(frame_)
+            print('matched')
+            message = extract(frame ,secret_message)
             return
+    return render(request, 'core/sucess.html',{'message':message})
 
 
 # In[23]:
@@ -313,31 +324,38 @@ def decode_vid_data(frame):
 
 #allowing user to first upload a video that could provide a result of total number of video frames
 
-def video_upload(request):
-
-    return 
-
 
 
 def encode(request):
     video = Encoding.objects.last()
     videofile = None
+    user = request.user
+    output = None
     if video == None:
         print("File not found")
     else:
         videofile = video.file.path
     form = EncodeForm(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        form.save()
-        file = form.cleaned_data['file']
-        secret_key = form.cleaned_data['secret_key']
-        message = form.cleaned_data['message']
-        frame_number = form.cleaned_data['frame_number']
-        encode_vid_data(videofile, frame_number, message, secret_key)
-        messages.error(request, f'Encoded')
-    context ={'video' : video, 'form' : form}
+    if user.is_authenticated:
+        if form.is_valid():
+            form_list = form.save()
+            form_list.user = request.user
+            form_list.save()
+            file = form.cleaned_data['file']
+            secret_key = form.cleaned_data['secret_key']
+            message = form.cleaned_data['message']
+            frame_number = form.cleaned_data['frame_number']
+            a = encode_vid_data(request, videofile, frame_number, message, secret_key)
+            form_list.changed_frame_after_encoding = a
+            form_list.encoded_file = request.session['encoded_video']
+            form_list.save()
+            messages.success(request, f'Encoded')
+            return redirect('sucess')
+        context ={'output' : output, 'form' : form}
     return render(request, 'core/encode.html',context)
 
+def sucess(request):
+    return render(request, 'core/sucess.html')
 
 def decode(request):
     video = Encoding.objects.last()

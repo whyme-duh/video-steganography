@@ -35,12 +35,17 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'core',
+    'Users',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    "crispy_bootstrap4",
+    'widget_tweaks',
+
 ]
 
 MIDDLEWARE = [
@@ -78,19 +83,19 @@ WSGI_APPLICATION = 'camouflage.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-    'default':{
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME':os.getenv('DB_NAME') ,
-        'USER': 'postgres',
-        'PASSWORD': 'GkkssR@123',
-        'HOST': 'localhost',
-        'PORT': os.getenv('DB_PORT'),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+#     'default':{
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME':os.getenv('DB_NAME') ,
+#         'USER': 'postgres',
+#         'PASSWORD': 'GkkssR@123',
+#         'HOST': 'localhost',
+#         'PORT': os.getenv('DB_PORT'),
+#     }
+# }
 
 
 # Password validation
@@ -126,6 +131,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -134,6 +140,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
 MEDIA_URL= "/media/"
 
+
+
+LOGIN_REDIRECT_URL = 'profile'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
