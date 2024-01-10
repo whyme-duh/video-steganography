@@ -87,6 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+<<<<<<< HEAD
 #     'default':{
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME':os.getenv('DB_NAME') ,
@@ -96,6 +97,10 @@ DATABASES = {
 #         'PORT': os.getenv('DB_PORT'),
 #     }
 # }
+=======
+    
+}
+>>>>>>> e995e44ef3710089273b0bf1918d67a4177e2dbc
 
 
 # Password validation
