@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import redirect, render
 from . models import Encoding
 from . forms import DecodeForm, EncodeForm
@@ -12,77 +13,7 @@ def home(request):
     return render(request, 'core/home.html')
 
 
-# def genData(data):
 
-# 		# list of binary codes
-# 		# of given data
-# 		newd = []
-
-# 		for i in data:
-# 			newd.append(format(ord(i), '08b'))
-# 		return newd
-
-# # Pixels are modified according to the
-# # 8-bit binary data and finally returned
-# def modPix(pix, data):
-
-# 	datalist = genData(data)
-# 	lendata = len(datalist)
-# 	imdata = iter(pix)
-
-# 	for i in range(lendata):
-
-# 		# Extracting 3 pixels at a time
-# 		pix = [value for value in imdata.__next__()[:3] +
-# 								imdata.__next__()[:3] +
-# 								imdata.__next__()[:3]]
-
-# 		# Pixel value should be made
-# 		# odd for 1 and even for 0
-# 		for j in range(0, 8):
-# 			if (datalist[i][j] == '0' and pix[j]% 2 != 0):
-# 				pix[j] -= 1
-
-# 			elif (datalist[i][j] == '1' and pix[j] % 2 == 0):
-# 				if(pix[j] != 0):
-# 					pix[j] -= 1
-# 				else:
-# 					pix[j] += 1
-# 				# pix[j] -= 1
-
-# 		# Eighth pixel of every set tells
-# 		# whether to stop ot read further.
-# 		# 0 means keep reading; 1 means thec
-# 		# message is over.
-# 		if (i == lendata - 1):
-# 			if (pix[-1] % 2 == 0):
-# 				if(pix[-1] != 0):
-# 					pix[-1] -= 1
-# 				else:
-# 					pix[-1] += 1
-
-# 		else:
-# 			if (pix[-1] % 2 != 0):
-# 				pix[-1] -= 1
-
-# 		pix = tuple(pix)
-# 		yield pix[0:3]
-# 		yield pix[3:6]
-# 		yield pix[6:9]
-
-# def encode_enc(newimg, data):
-# 	w = newimg.size[0]
-# 	(x, y) = (0, 0)
-
-# 	for pixel in modPix(newimg.getdata(), data):
-
-# 		# Putting modified pixels in the new image
-# 		newimg.putpixel((x, y), pixel)
-# 		if (x == w - 1):
-# 			x = 0
-# 			y += 1
-# 		else:
-# 			x += 1
 
 #!/usr/bin/env python
 # coding: utf-8
@@ -213,14 +144,12 @@ def embed(frame, msg, key): #  here msg is the parameter that is sent to this fu
 
 
 def encode_vid_data(request, file, frame_no, msg, key):
-    global frame_
     cap=cv2.VideoCapture(file)
     vidcap = cv2.VideoCapture(file)    
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     frame_width = int(vidcap.get(3))
     frame_height = int(vidcap.get(4))
     size = (frame_width, frame_height)
-    out = cv2.VideoWriter('media/videos/default.mp4',fourcc, 25.0, size)
     max_frame=0;
     while(cap.isOpened()):
         ret, frame = cap.read()
@@ -231,9 +160,10 @@ def encode_vid_data(request, file, frame_no, msg, key):
     print("Total number of Frame in selected Video :",max_frame)
     if (frame_no > max_frame or frame_no < 0):
         print("error")
-    # print("Enter the frame number where you want to embed data : ")
     n=frame_no
     frame_number = 0
+    out = cv2.VideoWriter('media/encoded/default.mp4',fourcc, 25.0, size)
+
     while(vidcap.isOpened()):
         frame_number += 1
         ret, frame = vidcap.read()
@@ -244,8 +174,11 @@ def encode_vid_data(request, file, frame_no, msg, key):
             frame_ = change_frame_with 
             frame = change_frame_with
         out.write(frame)
-    request.session['encoded_video'] = '/videos/default.mp4'
     print("\nEncoded the data successfully in the video file.")
+    request.session['encoded_video'] = 'encoded/default.mp4'  
+    out.release()
+    vidcap.release()
+    cv2.destroyAllWindows()  
     return frame_
 
 def decryption(ciphertext, secret_message):
@@ -266,24 +199,30 @@ def decryption(ciphertext, secret_message):
 def extract(frame, secret_message):
     data_binary = ""
     final_decoded_msg = ""
-    for i in frame:
+    print('frame', frame)
+    frame_list = json.loads(frame) 
+    frame_array = np.array(frame_list)
+    print(type(frame_array))
+    for i in frame_array:
         for pixel in i:
+            # print('i' , i)
+            # print('pixel' , msgtobinary(pixel))
             r, g, b = msgtobinary(pixel) 
-            data_binary += r[-1]  
+            data_binary += r[-1]   
             data_binary += g[-1]  
             data_binary += b[-1]  
             total_bytes = [ data_binary[i: i+8] for i in range(0, len(data_binary), 8) ]
+            # print('total bytes', total_bytes)
             decoded_data = ""
             for byte in total_bytes:
+                # print(byte)
                 decoded_data += chr(int(byte, 2))
                 if decoded_data[-5:] == "*^*^*": 
                     for i in range(0,len(decoded_data)-5):
                         final_decoded_msg += decoded_data[i]
                     final_decoded_msg = decryption(final_decoded_msg, secret_message)
                     print("\n\nThe Encoded data which was hidden in the Video was :--\n",final_decoded_msg)
-                    return final_decoded_msg
-                else:
-                    print('not found')
+                    return 
 
 
 
@@ -291,30 +230,34 @@ def extract(frame, secret_message):
 # In[22]:
 
 
-def decode_vid_data(request,file, frame, n, secret_message):
-    print(file)
-    message = None
-    cap = cv2.VideoCapture(file)
-    max_frame=0;
+def decode_vid_data(request,id):
+    filname = Encoding.objects.filter(id)
+    print(filename)
+    print(filename)
+    message = ''
+    cap = cv2.VideoCapture(filename)
+    max_frame=0
     while(cap.isOpened()):
-        ret, frame = cap.read()
+        ret, frame_ = cap.read()
         if ret == False:
             break
         max_frame+=1
-    # print("Total number of Frame in selected Video :",max_frame)
-    # n=int(input())
-    vidcap = cv2.VideoCapture(file)
+    cap.release()
+    print("Total number of Frame in selected Video :",max_frame)
+    vidcap = cv2.VideoCapture(filename)
     frame_number = 0
+    # print(frame)
     while(vidcap.isOpened()):
-        print('hello')
         frame_number += 1
-        ret, frame = vidcap.read()
+        ret, frame_ = vidcap.read()
         if ret == False:
             break
         if frame_number == n:
             print('matched')
-            message = extract(frame ,secret_message)
+            # message = extract(frame ,secret_message)
             return
+        
+    vidcap.release()
     return render(request, 'core/sucess.html',{'message':message})
 
 
@@ -324,35 +267,39 @@ def decode_vid_data(request,file, frame, n, secret_message):
 
 #allowing user to first upload a video that could provide a result of total number of video frames
 
-
+def handle_uploaded_file(f):
+    with open('some/file/name.txt', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
 def encode(request):
-    video = Encoding.objects.last()
-    videofile = None
+    # video = Encoding.objects.last()
+    # videofile = None
     user = request.user
-    output = None
-    if video == None:
-        print("File not found")
-    else:
-        videofile = video.file.path
+    # if video == None:
+    #     print("File not found")
+    # else:
+    #     videofile = video.file.path
     form = EncodeForm(request.POST or None, request.FILES or None)
     if user.is_authenticated:
         if form.is_valid():
             form_list = form.save()
             form_list.user = request.user
-            form_list.save()
-            file = form.cleaned_data['file']
+            file_location = form_list.video.path
             secret_key = form.cleaned_data['secret_key']
             message = form.cleaned_data['message']
             frame_number = form.cleaned_data['frame_number']
-            a = encode_vid_data(request, videofile, frame_number, message, secret_key)
+            a = encode_vid_data(request, file_location, frame_number, message, secret_key)
             form_list.changed_frame_after_encoding = a
             form_list.encoded_file = request.session['encoded_video']
             form_list.save()
             messages.success(request, f'Encoded')
             return redirect('sucess')
-        context ={'output' : output, 'form' : form}
-    return render(request, 'core/encode.html',context)
+        context ={ 'form' : form}
+        return render(request, 'core/encode.html',context)
+    else:
+        return render(request, 'core/encode.html')
+
 
 def sucess(request):
     return render(request, 'core/sucess.html')

@@ -1,0 +1,23 @@
+{%extends 'core/index.html' %}
+{% block content %}
+
+
+        <h1>Decode Now.</h1>
+        <p id="encode-message">Decode your encoded video with an ease.</p>
+        <!-- <div class="encode-box">
+            <button id="video-button">Place your video here </button>
+        </div> -->
+        <div class="encode-inputs">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit" data-toggle="modal" data-target="#exampleModalCenter">Decode</button>
+            </form>
+           
+        </div>
+
+          {{data}}
+        <div class="modal">
+            <h5>Your Encoded Message in this uploaded image is : {{data}} </h5>
+        </div>
+{% endblock %}

@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'core',
     'Users',
+    'imageSteg',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -87,17 +88,17 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default':{
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME':os.getenv('DB_NAME') ,
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'GkkssR@123',
+    #     'HOST': 'localhost',
+    #     'PORT': os.getenv('DB_PORT'),
+    # }
 }
-#     'default':{
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME':os.getenv('DB_NAME') ,
-#         'USER': 'postgres',
-#         'PASSWORD': 'GkkssR@123',
-#         'HOST': 'localhost',
-#         'PORT': os.getenv('DB_PORT'),
-#     }
-# }
-    
+
+ 
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -138,8 +139,8 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # for media
-MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
 MEDIA_URL= "/media/"
+MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 
 
 

@@ -1,0 +1,17 @@
+{%extends 'core/index.html' %}
+{% block content %}
+    <div class="main">
+        {{message}}
+        <h1>Encode Now.</h1>
+        <p id="encode-message">Hide your message inside any video with an ease.</p>
+        <form enctype = "multipart/form-data" method="POST">
+            {{form.as_p}}
+            {% csrf_token %}
+            <button id="encode-button" type="submit">Encode</button> 
+        </form> 
+        
+
+    </div>
+   
+
+{%endblock %}

@@ -13,10 +13,11 @@
 	<div class="row">
 		{% for video in encoded_videos %}
 		<div class="card p-4 row d-flex justify-content-between">
-			<h5 class="w-25">{{video.file}}</h5>
+			<h5 class="w-25">{{video.file.path}}</h5>
 			{{video.frame_number}}
 			{{video.message}}
-			<a href="{% url 'decode-video' video.file.path video.changed_frame_after_encoding video.frame_number video.message %}" class="btn btn-secondary text-white w-25">Decode Now</a>
+			{{video.encoded_file}}
+			<a href="{% url 'decode-video' video.id %}" class="btn btn-secondary text-white w-25">Decode Now</a>
 		</div>
 		{% endfor %}
 	</div>

@@ -1,0 +1,17 @@
+{% extends 'core/index.html' %}
+
+{% block content %}
+
+
+{{message}}
+<div class="results">
+    {% if request.session.image_location %}
+        <a href="/{{request.session.image_location}}" download> download</a>
+        <img src="/{{request.session.image_location}}" alt="" width="350px" height="350px" >
+
+    {% else %}
+    <h5>nothing</h5>
+    {% endif%}
+</div>
+<a href="{% url 'image-steg' %}" class="btn btn-secondary text-white">Encode the Message in Image</a>
+{% endblock %}
