@@ -1,4 +1,6 @@
 {%extends 'core/index.html' %}
+{% load widget_tweaks %}
+
 {% block content %}
 
 
@@ -8,10 +10,25 @@
             <button id="video-button">Place your video here </button>
         </div> -->
         <div class="encode-inputs">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data" class="w-50">
                 {% csrf_token %}
-                {{form.as_p}}
-                <input type="submit" value="Decode">
+                <div class="form-outline mb-4">
+                    <label class="form-label" >Upload Your Encoded video</label>
+      
+                      {% render_field form.video class="form-control" %}
+                </div>
+        
+                  <!-- Password input -->
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="secret_key">Secret Key</label>
+                    {% render_field form.secret_key class="form-control" placeholder="Enter Secret Key" type="secret_key" %}
+      
+                </div>
+                
+                
+                
+                <button id="encode-button" type="submit">Decode</button> 
+
             </form>
             <!-- <form>
                 <br>

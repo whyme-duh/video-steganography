@@ -1,6 +1,7 @@
 body {
-    padding-inline: 5%;
     font-family: 'JetBrains Mono', monospace;
+    position: relative;
+    min-height: 200vh;
 }
 
 a {
@@ -8,6 +9,9 @@ a {
     color: black !important;
 }
 
+main{
+    margin-top: 4em;
+}
 nav {
     display: flex;
     font-weight: 800;
@@ -59,7 +63,8 @@ nav {
 
 .bottom-part {
     padding-inline: 10%;
-    width: 80%;
+
+    width: 100%;
     padding-top: 30px;
     display: flex;
     align-items: center;
@@ -176,12 +181,13 @@ input[type="number"] {
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap');
 
 .fa {
-    padding: 90px;
+    padding: 0.5em;
     font-size: 30px;
-    width: 90px;
+    width: 2em;
     text-align: center;
     text-decoration: none;
     border-radius: 50%;
+    color: white;
 }
 
 .fa:hover {
@@ -208,11 +214,17 @@ input[type="number"] {
 }
 
 .footer {
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    z-index: 10;
     display: flex;
     justify-content: space-around;
     height: 220px;
-    background-color: rgb(194, 194, 194);
+    background-color: rgb(235, 231, 231);
     padding: 40px;
+    margin-top:16em;
+    width:100%;
 }
 
 .footer_about {

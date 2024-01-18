@@ -1,12 +1,25 @@
 {%extends 'core/index.html' %}
+{% load widget_tweaks %}
+
 {% block content %}
     <div class="main">
         {{message}}
         <h1>Encode Now.</h1>
         <p id="encode-message">Hide your message inside any video with an ease.</p>
-        <form enctype = "multipart/form-data" method="POST">
-            {{form.as_p}}
+        <form enctype = "multipart/form-data" method="POST" class="w-50">
             {% csrf_token %}
+            <div class="form-outline mb-4">
+                <label class="form-label" >Upload Image</label>
+
+                {% render_field form.image_file class="form-control" %}
+            </div>
+            
+            <div class="form-outline mb-4">
+                <label class="form-label" for="message">Message</label>
+                {% render_field form.message class="form-control" placeholder="Enter Message" type="message" %}
+
+            </div>
+           
             <button id="encode-button" type="submit">Encode</button> 
         </form> 
         

@@ -8,5 +8,6 @@ urlpatterns = [
     path('encode/',views.encode,name= 'encode'),
     path('decode/',views.decode,name= 'decode'),
     path('decode-video/<int:id>',views.decode_vid_data,name= 'decode-video'),
+    path('decoded-message/<int:id>',views.give_message,name= 'decode-vid'),
     path('sucess/',views.sucess ,name= 'sucess'),
 ]

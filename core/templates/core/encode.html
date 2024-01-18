@@ -1,15 +1,47 @@
 {%extends 'core/index.html' %}
+{% load widget_tweaks %}
+
 {% block content %}
     <div class="main">
         {{message}}
         <h1>Encode Now.</h1>
         <p id="encode-message">Hide your message inside any video with an ease.</p>
-        <form action="" enctype = "multipart/form-data" method="POST">
-            {{form.as_p}}
-            {% csrf_token %}
-            <center><button id="encode-button" type="submit">Encode</button> </center>
+        <div class="encode-inputs">
 
-        </form> 
+            <form action="" enctype = "multipart/form-data" method="POST" class=" w-50">
+                {% csrf_token %}
+                <div class="form-outline mb-4">
+                    <label class="form-label" >Upload Your video</label>
+    
+                    {% render_field form.video class="form-control" %}
+                </div>
+        
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="secret_key">Secret Key</label>
+                    {% render_field form.secret_key class="form-control" placeholder="Enter Secret Key" type="secret_key" %}
+    
+                </div>
+                
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="frame_number">Frame Number</label>
+                    {% render_field form.frame_number class="form-control" placeholder="Enter Frame Number" type="frame_number" %}
+    
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="message">Message</label>
+                    {% render_field form.message class="form-control" placeholder="Enter Message" type="message" %}
+    
+                </div>
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="encoded_file_name">File Name</label>
+                    {% render_field form.encoded_file_name class="form-control" placeholder="Enter Filename for the encoded video" type="encoded_file_name" %}
+    
+                </div>
+                <button id="encode-button" type="submit">Encode</button> 
+
+            </form> 
+        </div>
         <!-- <form>
 
         <div class="background">

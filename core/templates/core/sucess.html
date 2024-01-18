@@ -3,11 +3,10 @@
 {% block content %}
 
 
-{{message}}
-<video width="450" height="500" controls>
-    <source src="/{{request.session.encoded_video}}" type="video/mp4">
+
+<!-- <video width="450" height="500" controls>
+    <source src="/media{{request.session.encoded_video}}" type="video/avi">
     Your browser does not support the video tag.
-  </video>
-  <a href="/{{request.session.encoded_video}}" download>Download Video</a>
-{{request.session.encoded_video}}
+  </video> -->
+  <a href="/media/{{request.session.encoded_video}}" download>Download Video</a>
 {% endblock %}
