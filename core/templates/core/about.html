@@ -1,7 +1,26 @@
 {%extends 'core/index.html' %}
 {% block content %}
-    <div class="main">
-        <h1>About US</h1>
+<div class="main">
+    <div class="about">
+        <div class="about_detail">
+            <h2>About The Project</h2>
+            <br>
+            <p>The Camouflage project is a steganography tool, where user is able to encode and decode their secret
+                message into a video. This tool can be used for securely communicating with each other without any
+                other third party knowing what the information has been sent. The conversation can be camouflaged as
+                a normal video sending between two users with an alternative motive of sending hidden text messages.
+                This system can also be used for copyright claims of YouTube videos. </p>
+            <p>The video can be encoded with a
+                digital signature and can be decoded when copyright claims are to be made for the particular video.
+                This way the content creators can be assured when copyright claims are to e made for a YouTube video.
+                The encoded videos can be downloaded and shared in different platforms. </p>
+            <p>The project has been done by Dilasha Shrestha, Supriya Thapa Bhujel and Ritik Lal Shrestha.</p>
+        </div>
+        <div class="about_picture">
+            <img src="../../static/about.avif">
+        </div>
     </div>
+    
+</div>
 
 {%endblock %}
