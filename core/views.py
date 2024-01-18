@@ -466,7 +466,6 @@ def encode(request):
     form = EncodeForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form_list = form.save()
-        form_list.user = request.user
         file_location = form_list.video.path
         secret_key = form.cleaned_data['secret_key']
         message = form.cleaned_data['message']
