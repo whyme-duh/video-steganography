@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from django.shortcuts import redirect, render
 from . models import Encoding
 from . forms import DecodeForm, EncodeForm
@@ -433,7 +434,6 @@ class Video:
 
         # Now decrypt the ciphertext
         plaintext = Video.rc4.decrypt(key=key, ciphertext=ciphertext)
-        print(plaintext)
         return plaintext
 
 
@@ -464,41 +464,72 @@ class Video:
 
 def encode(request):
     form = EncodeForm(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        form_list = form.save()
-        file_location = form_list.video.path
-        secret_key = form.cleaned_data['secret_key']
-        message = form.cleaned_data['message']
-        frame_number = form.cleaned_data['frame_number']
-        encoded_filename = form.cleaned_data['encoded_file_name']
-        frames,audio, fps = Video.read_video_frames(video_path=file_location )
-        encoded_frames = Video.encode(key=secret_key, message=message, frames=frames)
-        Video.write_video(frames=encoded_frames, audio=audio, output_path="media/encoded/"+encoded_filename+'.avi', fps=fps)
+    context = {'form': form}
 
-        # encode_vid_data(request, file_location, frame_number, message, secret_key,encoded_filename)
-        form_list.encoded_file_name = encoded_filename
-        form_list.encoded_file ="media/encoded/"+encoded_filename+'.avi'
-        request.session['encoded_video'] = "/encoded/"+encoded_filename+'.avi'
-        form_list.save()
-        messages.success(request, f'Encoded')
-        return redirect('sucess')
-    context ={ 'form' : form}
-    return render(request, 'core/encode.html',context)
+    if request.method == 'POST':
+        if form.is_valid():
+            form_list = form.save()
+            file_location = form_list.video.path
+            secret_key = form.cleaned_data['secret_key']
+            message = form.cleaned_data['message']
+            encoded_filename = form.cleaned_data['encoded_file_name']
+
+            frames, audio, fps = Video.read_video_frames(video_path=file_location)
+            if frames and audio and fps:
+                encoded_frames = Video.encode(key=secret_key, message=message, frames=frames)
+                if encoded_frames is not None:
+                    output_path = "media/encoded/" + encoded_filename + '.avi'
+                    Video.write_video(frames=encoded_frames, audio=audio, output_path=output_path, fps=fps)
+                    form_list.encoded_file_name = encoded_filename
+                    form_list.encoded_file = output_path
+                    request.session['encoded_video'] = "/encoded/" + encoded_filename + '.avi'
+                    form_list.save()
+                    messages.success(request, 'Encoded')
+                    return redirect('success')
+                else:
+                    messages.error(request, "Error during encoding.")
+        else:
+            return render(request, 'core/encode.html', context)
+
+    else:
+        form = EncodeForm(None)
+        return render(request, 'core/encode.html', context)
    
 
 def decode(request):
+    sent_message = False
+    message = ''
+    error = False
     form = DecodeForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form_list = form.save()
         file_name = form_list.video.path
         secret_key = form.cleaned_data['secret_key']
-        # frame_number = form.cleaned_data['frame_number']
-        # encoded_filename = form.cleaned_data['encoded_filename']
-        frames,audio, fps = Video.read_video_frames(video_path=file_name)
-        # message = check_message(file_name, frame_number, secret_key, encoded_filename)
-        message = Video.decode(key=secret_key, frames=frames).rstrip(' ')
-        form_list.save()
+        frames, audio, fps = Video.read_video_frames(video_path=file_name)
+        if frames and audio and fps:
+            # message = check_message(file_name, frame_number, secret_key, encoded_filename)
+            decoded_message = Video.decode(key=secret_key, frames=frames).rstrip(' ')
+            sent_message = True
 
-        messages.error(request, f'Encoded message is : {message} ')
-    context ={ 'form' : form}
+            if re.match("^[ -~\s]+$", decoded_message):
+                secret_key = "Secret Key : " + secret_key
+                message = "Your decoded message : " +  decoded_message
+                lines = [secret_key, message]
+                with open('media/decode.txt', 'w') as f:
+                    for line in lines:
+                        f.write(line)
+                        f.write('\n')
+                sent_message = True
+            else:
+                error = True
+                sent_message = True
+                message = "Error in retrieving the encoded message, might be because of incorrect secret key"
+            form_list.save()
+        else:
+            message.error(request, f'The given video with frame key cannot be decoded')
+    context ={ 'form' : form, 'message' : message, 'error' : error, 'sent_message' : sent_message }
     return render(request, 'core/decode.html',  context)
+
+
+
+

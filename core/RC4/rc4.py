@@ -50,6 +50,7 @@ class RC4:
                 cipher_text.append(f'{integer:08b}')
             else:
                 cipher_text.append(chr(integer))
+        print(len(cipher_text))
         return ''.join(cipher_text)
 
 
@@ -62,3 +63,15 @@ class RC4:
         """The cipher text in binary form"""
         ciphertext = [int(ciphertext[i*8:i*8+8], base=2) for i in range(len(ciphertext)//8)]
         return self.__call__(key=key, message_ascii_list=ciphertext, encrypt=False)
+    
+    SIGNATURE = "RC4SIG"
+
+    def encrypt_with_signature(self, key: str, plaintext: str) -> str:
+        return self.encrypt(key, self.SIGNATURE + plaintext)
+
+    def decrypt_with_signature(self, key: str, ciphertext: str) -> str:
+        decrypted_text = self.decrypt(key, ciphertext)
+        if decrypted_text.startswith(self.SIGNATURE):
+            return decrypted_text[len(self.SIGNATURE):]
+        else:
+            raise ValueError("Incorrect key or corrupted message")

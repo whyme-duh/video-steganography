@@ -1,7 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap');
+
+*{
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'JetBrains Mono', monospace;
     position: relative;
-    min-height: 200vh;
+    min-height: 250vh;
 }
 
 a {
@@ -135,21 +141,23 @@ nav {
     Left: 77px;
 }
 
-#encode-button {
-    Width: 182px;
-    Height: 57px;
-    Top: 692px;
-    Left: 620px;
-    border-radius: 14px;
+#encode-button, #decoded-button{
+    border-radius:10px;
     background-color: #C7FFAC;
     border: none;
+    padding: 1em;
+    padding-inline: 2em;
 }
-
 .encode-inputs {
+    width: 100%;
     padding-top: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+}
+form{
+    width: 50%;
 }
 
 input[type="text"] {
@@ -178,7 +186,6 @@ input[type="number"] {
     width: 50%;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap');
 
 .fa {
     padding: 0.5em;
@@ -242,4 +249,77 @@ ul {
     list-style: none;
     padding: 0;
     padding-left: -30px;
+}
+
+
+.decoded-body#blur.active{
+    filter: blur(20px);
+}
+/* for the card design after decoding */
+.card{
+    display: none;
+    width: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -150%);
+    background-color: grey;
+    height: 45vh;
+    padding: 2em;
+    text-align: center;
+    align-items: center;
+}
+
+
+.title{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.title .error{
+    font-size: 1.25em;
+    color: red;
+}
+.title .successfully{
+    font-size: 1.25em;
+    color: rgb(0, 255, 38);
+}
+.close-btn{
+    background:none;
+    border: none;
+    width: fit-content;
+    justify-self: end;
+    font-family: monospace;
+    color: red;
+}
+
+.message{
+    padding-top: 1em;
+    font-size: 1em;
+}
+
+@media only screen and (max-width:400px){
+    body{
+        margin: 0;
+        padding:0;
+    }
+    main{
+        width: 100%;
+    }
+    main h1{
+        font-size: 3em;
+    }
+    #encode-message{
+        font-size: 1.5em;
+    }
+    form{
+        width: 100%;
+        font-size: 1.5em;
+
+        
+    }
+    .encode-inputs{
+        width: 100%;
+    }
+    
 }

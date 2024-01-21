@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from core import views
+from . import views
 
 urlpatterns = [
     path('',views.home ,name= 'home'),
@@ -9,5 +9,5 @@ urlpatterns = [
     path('decode/',views.decode,name= 'decode'),
     path('decode-video/<int:id>',views.decode_vid_data,name= 'decode-video'),
     path('decoded-message/<int:id>',views.give_message,name= 'decode-vid'),
-    path('sucess/',views.sucess ,name= 'sucess'),
+    path('success/',views.sucess ,name= 'success'),
 ]

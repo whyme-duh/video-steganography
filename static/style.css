@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap');
+
+*{
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    position: relative;
+    min-height: 200vh;
+}
+
+a {
+    text-decoration: none !important;
+    color: black !important;
+}
+
+main{
+    margin-top: 4em;
+}
+nav {
+    display: flex;
+    font-weight: 800;
+    justify-content: space-between;
+    padding-top: 20px;
+
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}
+
+.nav-bar li {
+    padding-right: 50px;
+}
+
+
+.top-part {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80vh;
+
+}
+
+.top-info {
+    width: 40%;
+}
+
+.top-info h3 {
+    font-size: 2em;
+}
+
+.bold {
+    font-weight: 900;
+}
+
+#pink-button {
+    background-color: #F9ECEC;
+    Width: 160px;
+    Height: 52px;
+    Top: 486px;
+    Left: 77px;
+    border-radius: 14px;
+    border: none;
+}
+
+.bottom-part {
+    padding-inline: 10%;
+
+    width: 100%;
+    padding-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.bottom-part h3 {
+    font-size: 2em;
+}
+
+.bottom-photo {
+    padding-block: 40px;
+}
+
+.bottom-part p {
+    text-align: center;
+}
+
+.footer {
+    background-color: F9ECEC;
+    height: 80px;
+}
+
+.encode-box {
+    background-color: #F9ECEC;
+    Width: 1235px;
+    Height: 189px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+
+}
+
+#video-button {
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.encode-box input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+#encode-message {
+    padding-bottom: 30px;
+}
+
+#video-button {
+    background-color: #B9B9B9;
+    border-radius: 14px;
+    border: none;
+    Width: 316px;
+    Height: 60px;
+    Top: 486px;
+    Left: 77px;
+}
+
+#encode-button {
+    Width: 182px;
+    Height: 57px;
+    Top: 692px;
+    Left: 620px;
+    border-radius: 14px;
+    background-color: #C7FFAC;
+    border: none;
+}
+
+.encode-inputs {
+    padding-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type="text"] {
+    padding: 0.5em;
+    border-radius: 5px;
+}
+
+input[type="number"] {
+    padding: 0.5em;
+    border-radius: 5px;
+}
+
+.about {
+    display: flex;
+    margin-top: 50px;
+    justify-content: space-around;
+}
+
+
+.about_picture img {
+    height: 540px;
+    width: 400px;
+}
+
+.about_detail {
+    width: 50%;
+}
+
+
+.fa {
+    padding: 0.5em;
+    font-size: 30px;
+    width: 2em;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+    color: white;
+}
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+.fa-facebook {
+    background: #3B5998;
+    color: white;
+}
+
+.fa-linkedin {
+    background: #007bb5;
+    color: white;
+}
+
+.fa-instagram {
+    background: #125688;
+    color: white;
+}
+
+.blank {
+    height: 45px;
+}
+
+.footer {
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    z-index: 10;
+    display: flex;
+    justify-content: space-around;
+    height: 220px;
+    background-color: rgb(235, 231, 231);
+    padding: 40px;
+    margin-top:16em;
+    width:100%;
+}
+
+.footer_about {
+    width: 30%;
+
+}
+
+.footer h1 {
+    font-size: 20px;
+    padding-bottom: 10px;
+    font-family: 'Oswald', sans-serif;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    padding-left: -30px;
+}
+
+/* this is footer for home page only  */
+#homeFooter{
+    margin-top: 40em;
+}W
+
+/* for the card design after decoding */
+.card{
+    width: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -150%);
+    background-color: grey;
+    height: 45vh;
+    padding: 2em;
+    text-align: center;
+    align-items: center;
+}
+
+.title{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.title .error{
+    font-size: 1.25em;
+    color: red;
+}
+.title .successfully{
+    font-size: 1.25em;
+    color: rgb(0, 255, 38);
+}
+.close-btn{
+    background:none;
+    border: none;
+    width: fit-content;
+    justify-self: end;
+    font-family: monospace;
+    color: red;
+}
+
+.message{
+    padding-top: 1em;
+    font-size: 1em;
+}
+
+@media only screen and (min-width:600px){
+    body{
+        margin: 0;
+        padding:0;
+    }
+    main{
+        width: 100%;
+    }
+    main h1{
+        font-size: 3em;
+    }
+    #encode-message{
+        font-size: 1.5em;
+    }
+    form{
+        width: 100%;
+        font-size: 1.5em;
+
+        
+    }
+    .encode-inputs{
+        width: 100%;
+    }
+    
+}
