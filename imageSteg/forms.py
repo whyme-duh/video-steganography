@@ -8,7 +8,7 @@ class ImageEncodeForm(forms.ModelForm):
         model = ImageEncoding
         fields = ["image_file",  'message']
 
-    message = forms.CharField(required=True)
+    message = forms.CharField(required=True, max_length=80)
     
 
 class DecodeForm(forms.Form):

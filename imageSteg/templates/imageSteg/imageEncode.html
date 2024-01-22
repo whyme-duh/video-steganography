@@ -20,6 +20,7 @@
             <div class="form-outline mb-4">
                 <label class="form-label" for="message">Message</label>
                 {% render_field form.message class="form-control" placeholder="Enter Message" type="message" %}
+                <small style="color:red;font-size: 1em;">{{form.image_file.errors}}</small>
 
             </div>
            
