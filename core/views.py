@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import time
 from django.shortcuts import redirect, render
 from . models import Encoding
 from . forms import DecodeForm, EncodeForm
@@ -469,12 +470,12 @@ def encode(request):
 
     if request.method == 'POST':
         if form.is_valid():
+            start = time.time()
             form_list = form.save()
             file_location = form_list.video.path
             secret_key = form.cleaned_data['secret_key']
             message = form.cleaned_data['message']
             encoded_filename = form.cleaned_data['encoded_file_name']
-
             frames, audio, fps = Video.read_video_frames(video_path=file_location)
             if frames and audio and fps:
                 encoded_frames = Video.encode(key=secret_key, message=message, frames=frames)
@@ -485,6 +486,9 @@ def encode(request):
                     form_list.encoded_file = output_path
                     request.session['encoded_video'] = "/encoded/" + encoded_filename + '.avi'
                     form_list.save()
+                    end = time.time()
+                    completion = end - start
+                    request.session['video_completion_time'] = completion
                     messages.success(request, 'Your video has been encoded succesfully')
                     return redirect('success')
                 else:
