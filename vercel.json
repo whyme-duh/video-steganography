@@ -1,8 +1,8 @@
 {
     "builds": [{
         "src": "camouflage/wsgi.py",
-        "use": "@ardnt/vercel-python-wsgi",
-        "config": { "maxLambdaSize": "15mb" }
+        "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb", "runtime":"3.10.4" }
     }],
     "routes": [
         {

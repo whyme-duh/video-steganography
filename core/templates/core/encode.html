@@ -5,58 +5,43 @@
 {% block content %}
     <div class="main col-md-12 col-xs-12">
         {{message}}
-        <h1>Encode Now.</h1>
+        <h1>Encode Video Now.</h1>
         <p id="encode-message">Hide your message inside any video with an ease.</p>
         <div class="encode-inputs ">
-
             <form enctype = "multipart/form-data" method="POST" >
                 {% csrf_token %}
                 <div class="form-outline mb-4">
                     <label class="form-label" >Upload Your video</label>
-                    {% render_field form.video class="form-control" %}
-                    <small style="color:red;font-size: 0.5em;">{{form.video.errors}}</small>
+                    {% render_field form.video class="form-control" type="file" %}
+                    <small style="color:red;font-size: 1em;">{{form.video.errors}}</small>
 
                 </div>
         
                 <!-- Password input -->
                 <div class="form-outline mb-4">
                     <label class="form-label" for="secret_key">Secret Key</label>
-                    {% render_field form.secret_key class="form-control" placeholder="Enter Secret Key" type="secret_key"  %}
-                    <small style="color:red;font-size: 0.5em;">{{form.secret_key.errors}}</small>
+                    {% render_field form.secret_key class="form-control" placeholder="Enter Secret Key" type="text"  %}
+                    <small style="color:red;font-size: 1em;">{{form.secret_key.errors}}</small>
                     
                 </div>
                 
                 
                 <div class="form-outline mb-4">
                     <label class="form-label" for="message">Message</label>
-                    {% render_field form.message class="form-control" placeholder="Enter Message" type="message" %}
-                    <small style="color:red;font-size: 0.5em;">{{form.message.errors}}</small>
+                    {% render_field form.message class="form-control" placeholder="Enter Message" type="text" %}
+                    <small style="color:red;font-size: 1em;">{{form.message.errors}}</small>
     
                 </div>
                 <div class="form-outline mb-4">
                     <label class="form-label" for="encoded_file_name">File Name</label>
-                    {% render_field form.encoded_file_name class="form-control" placeholder="Enter Filename for the encoded video without extension" type="encoded_file_name" %}
-                    <small style="color:red;font-size: 0.5em;">{{form.encoded_file_name.errors}}</small>
+                    {% render_field form.encoded_file_name class="form-control" placeholder="Enter Filename for the encoded video without extension" type="text" %}
+                    <small style="color:red;font-size: 1em;">{{form.encoded_file_name.errors}}</small>
     
                 </div>
                 <button id="encode-button" type="submit">Encode</button> 
 
             </form> 
         </div>
-        <!-- <form>
-
-        <div class="background">
-            <div class="encode-box">
-                <button id="video-button">Place your video here </button>
-                <input type="file" name="file">
-            </div>
-        </div>
-        <div class="encode-inputs">
-                <br>
-                Your secret key: <input type="text"><br><br>
-                Your message: <input type="text"><br><br><br>
-        </div>
-        </form>  -->
 
     </div>
 

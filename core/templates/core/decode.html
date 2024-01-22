@@ -2,56 +2,58 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<div class="decoded-body" id="blur">
-    <h1>Decode Now.</h1>
-        <p id="encode-message">Decode your encoded video with an ease.</p>
-        <!-- <div class="encode-box">
-            <button id="video-button">Place your video here </button>
-        </div> -->
-        <div class="encode-inputs">
-            <form action="" method="POST" enctype="multipart/form-data" class="w-50">
-                {% csrf_token %}
-                <div class="form-outline mb-4">
-                    <label class="form-label" >Upload Your Encoded video</label>
-      
-                    {% render_field form.video class="form-control" %}
-                    <small style="color:red;font-size: 0.5em;">{{form.video.errors}}</small>
-                      
-                </div>
-        
-                  <!-- Password input -->
-                <div class="form-outline mb-4">
-                    <label class="form-label" for="secret_key">Secret Key</label>
-                    {% render_field form.secret_key class="form-control" placeholder="Enter Secret Key" type="secret_key" %}
-                    <small style="color:red;font-size: 0.5em;">{{form.secret_key.errors}}</small>
-      
-                </div>
-                
-                
-                
-                <button id="encode-button" type="submit">Decode</button> 
-
-            </form>
-        </div>
-        {% if sent_message %}
-        <div class="card" id="card">
-            {% if error %}
-            <div class="title">
-                <h5 class="error">Error</h5>
-                <button class="close-btn" id="closebtn">X</button>
+<div class="main">
+    <div class="decoded-body" id="blur">
+        <h1>Decode Video Now.</h1>
+            <p id="encode-message">Decode your encoded video with an ease.</p>
+            <!-- <div class="encode-box">
+                <button id="video-button">Place your video here </button>
+            </div> -->
+            <div class="encode-inputs">
+                <form action="" method="POST" enctype="multipart/form-data" >
+                    {% csrf_token %}
+                    <div class="form-outline mb-4">
+                        <label class="form-label" >Upload Your Encoded video</label>
+          
+                        {% render_field form.video class="form-control" %}
+                        <small style="color:red;font-size: 1em;">{{form.video.errors}}</small>
+                          
+                    </div>
+            
+                      <!-- Password input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="secret_key">Secret Key</label>
+                        {% render_field form.secret_key class="form-control" placeholder="Enter Secret Key" type="text" %}
+                        <small style="color:red;font-size: 1em;">{{form.secret_key.errors}}</small>
+          
+                    </div>
+                    
+                    
+                    
+                    <button id="encode-button" type="submit">Decode</button> 
+    
+                </form>
             </div>
-            <h5 class="message">{{message}}</h5>
-            <a href="{% url 'decode' %}" class="btn btn-secondary text-white w-25 mt-md-4">Decode Again</a>
-            {% else %}
-            <div class="title">
-                <h5 class="successfully">Decoded Successfully</h5>
-                <button class="close-btn" id="closebtn">X</button>
+            {% if sent_message %}
+            <div class="card" id="card">
+                {% if error %}
+                <div class="title">
+                    <h5 class="error">Error</h5>
+                    <button class="close-btn" id="closebtn">X</button>
+                </div>
+                <h5 class="message">{{message}}</h5>
+                <a href="{% url 'decode' %}" class="btn btn-secondary text-white w-25 mt-md-4">Decode Again</a>
+                {% else %}
+                <div class="title">
+                    <h5 class="successfully">Decoded Successfully</h5>
+                    <button class="close-btn" id="closebtn">X</button>
+                </div>
+                <h5 class="message">{{message}}</h5>
+                <a href="/media/decode.txt" class="btn btn-success text-white w-25 mt-md-4" download>Export in Text </a>
+                {% endif %}
             </div>
-            <h5 class="message">{{message}}</h5>
-            <a href="/media/decode.txt" class="btn btn-success text-white w-25 mt-md-4" download>Export in Text </a>
             {% endif %}
-        </div>
-        {% endif %}
+    </div>
 </div>
 
     

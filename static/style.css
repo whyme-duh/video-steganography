@@ -7,7 +7,7 @@
 body {
     font-family: 'JetBrains Mono', monospace;
     position: relative;
-    min-height: 200vh;
+    min-height: 250vh;
 }
 
 a {
@@ -25,6 +25,21 @@ nav {
     padding-top: 20px;
 
 }
+.nav-item a{
+    color: black;
+}
+.nav-link {
+    font-weight: 900;
+    font-size: 1.15em;
+}
+.nav-link:hover{
+    border-bottom: 1px solid rgb(70, 149, 180);
+    color: white;
+}
+.nav-item a:hover{
+    color:gray;
+}
+
 
 .nav-bar {
     display: flex;
@@ -59,10 +74,8 @@ nav {
 
 #pink-button {
     background-color: #F9ECEC;
-    Width: 160px;
-    Height: 52px;
-    Top: 486px;
-    Left: 77px;
+    padding: 1em;
+    padding-inline: 2em;
     border-radius: 14px;
     border: none;
 }
@@ -141,21 +154,23 @@ nav {
     Left: 77px;
 }
 
-#encode-button {
-    Width: 182px;
-    Height: 57px;
-    Top: 692px;
-    Left: 620px;
-    border-radius: 14px;
+#encode-button, #decoded-button{
+    border-radius:10px;
     background-color: #C7FFAC;
     border: none;
+    padding: 1em;
+    padding-inline: 2em;
 }
-
 .encode-inputs {
+    width: 100%;
     padding-top: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+}
+form{
+    width: 50%;
 }
 
 input[type="text"] {
@@ -249,13 +264,13 @@ ul {
     padding-left: -30px;
 }
 
-/* this is footer for home page only  */
-#homeFooter{
-    margin-top: 40em;
-}W
 
+.decoded-body#blur.active{
+    filter: blur(20px);
+}
 /* for the card design after decoding */
 .card{
+    display: none;
     width: 50%;
     position: absolute;
     left: 50%;
@@ -266,6 +281,7 @@ ul {
     text-align: center;
     align-items: center;
 }
+
 
 .title{
     display: flex;
@@ -295,28 +311,138 @@ ul {
     font-size: 1em;
 }
 
-@media only screen and (min-width:600px){
+@media only screen and (max-width:1000px){
+    *{
+        padding: 0;
+    }
     body{
         margin: 0;
         padding:0;
     }
-    main{
+    
+    .logo{
+        width: 80%;
+    }
+    .logopic{
         width: 100%;
     }
+    #navbarNav{
+        background-color: rgb(248, 245, 245);
+    }
+    main{
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+   
+    .top-part{
+        width: 100%;
+        display: flex;
+        flex-flow: column-reverse;
+        gap: 4em;
+        justify-content: start;
+        align-items: center;
+    }
+    .top-part img{
+        width: 100%;
+    }
+    .top-photo{
+        width: 100%;
+    }
+    .top-info{
+        padding: 1em;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+    .top-info h3{
+        font-size: 5em;
+    }
+    .bold{
+        font-size: 1.25em;
+    }
+    .top-info p{
+        padding-top:1em ;
+        font-size: 2em;
+    }
+    #pink-button{
+        margin-top: 2em;
+        font-size: 2em;
+
+    }
+    .bottom-part{
+        padding: 0;
+    }
+    .bottom-part h3{
+        font-size: 4em;
+        text-align: center;
+    }
+    .bottom-part p{
+        margin-top: 2em;
+        font-size: 2em;
+    }
+    .bottom-photo img{
+        width: 100%;
+        height:15vh;
+    }
+    /* encode  */
+    .main{
+        margin-top: 4em;
+        padding-inline:10%;
+    }
+
     main h1{
-        font-size: 3em;
+        font-size: 4em;
     }
     #encode-message{
-        font-size: 1.5em;
+        font-size: 2em;
+    }
+    label{font-size: 2.5em;}
+   
+    input[type="text"]{
+        padding: 1em;
+        font-size: 2em;
+
+    }
+    input[type="text"]::placeholder{
+        font-size: 0.85em;
+
+    }
+    input[type="file"]{
+        height: 100px;
     }
     form{
         width: 100%;
-        font-size: 1.5em;
-
-        
     }
     .encode-inputs{
         width: 100%;
     }
-    
+    #encode-button{
+        margin-top: 2em;
+        font-size: 2.5em;
+    }
+
+    /* about us  */
+   
+    .about{
+        display: block;
+        width: 100%;
+    }
+    .about_detail{
+        width: 100%;
+    }
+    .about h2{
+        font-size: 4em;
+    }
+    .about p{
+        font-size: 2em;
+    }
+    .about_picture{
+        width: 100%;
+    }
+    .about_picture img{
+        width: 100%;
+        height: auto;
+        margin-top: 2em;
+    }
 }

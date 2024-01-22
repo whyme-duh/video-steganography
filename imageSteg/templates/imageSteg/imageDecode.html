@@ -4,19 +4,20 @@
 {% block content %}
 
 
-        <h1>Decode Now.</h1>
-        <p id="encode-message">Decode your encoded video with an ease.</p>
+        <h1>Decode Image Now.</h1>
+        <p id="encode-message">Decode your encoded image with an ease.</p>
         <!-- <div class="encode-box">
             <button id="video-button">Place your video here </button>
         </div> -->
         <div class="encode-inputs">
             <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{form.as_p}}
                 <div class="form-outline mb-4">
                     <label class="form-label" >Upload Your Encoded image</label>
     
                     {% render_field form.encoded_image class="form-control" %}
+                    <small style="color:red;font-size: 1em;">{{form.encoded_image.errors}}</small>
+                    
                 </div>
         
                 
@@ -25,8 +26,23 @@
            
         </div>
 
-          {{data}}
-        <div class="modal">
-            <h5>Your Encoded Message in this uploaded image is : {{data}} </h5>
-        </div>
+        {% if sent_message %}
+            <div class="card" id="card">
+                {% if error %}
+                <div class="title">
+                    <h5 class="error">Error</h5>
+                    <button class="close-btn" id="closebtn">X</button>
+                </div>
+                <h5 class="message">{{data}}</h5>
+                <a href="{% url 'image-decode' %}" class="btn btn-secondary text-white w-25 mt-md-4">Decode Again</a>
+                {% else %}
+                <div class="title">
+                    <h5 class="successfully">Decoded Successfully</h5>
+                    <button class="close-btn" id="closebtn">X</button>
+                </div>
+                <h5 class="message">{{data}}</h5>
+                <a href="/media/image_decode.txt" class="btn btn-success text-white w-25 mt-md-4" download>Export in Text </a>
+                {% endif %}
+            </div>
+            {% endif %}
 {% endblock %}

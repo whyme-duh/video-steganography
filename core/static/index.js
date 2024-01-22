@@ -7,4 +7,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
         element.style.display = 'none';
         document.getElementById('blur').classList.remove('active');
     });
+
+    function toggleFunction(){
+        var topNav = document.getElementById('topNav');
+        if (topNav.className == "topNav"){
+            topNav.className += 'responsive';
+        }
+        else{
+            topNav.className = "topNav";
+        }
+    }
 });

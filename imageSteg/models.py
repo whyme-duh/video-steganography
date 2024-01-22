@@ -7,4 +7,3 @@ from django.core.validators import FileExtensionValidator
 class ImageEncoding(models.Model):
     image_file = models.FileField(upload_to='images/', null = True, verbose_name="", validators=[FileExtensionValidator(allowed_extensions=["png", "jpg","jpeg"])])
     message = models.CharField(max_length = 80, null = True, blank = True)
-    user = models.ForeignKey(User, on_delete = models.CASCADE, null =True)

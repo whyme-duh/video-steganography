@@ -4,14 +4,18 @@
 <div class="main">
     <div class="top-part">
         <div class="top-info">
-            <h3>HIDE YOUR TEXT MESSAGE IN <span class="bold">VIDEOS</span></h3>
+            <h3>HIDE YOUR TEXT MESSAGE IN <span class="bold">VIDEOS / IMAGES</span></h3>
             <p>
-                Experience the Secret Language of Videos. Dive into Hidden Messages with <span
+                Experience the Secret Language of Videos/Images. Dive into Hidden Messages with <span
                     class="bold">Steganography</span>!
             </p>
+            <button id="pink-button-two">
+                <span class="bold">
+                    <a href="{%url 'encode' %}">Encode Video</a></span>
+            </button>
             <button id="pink-button">
                 <span class="bold">
-                    <a href="{%url 'encode' %}">Encode Now</a></span>
+                    <a href="{%url 'image-steg' %}">Encode Image</a></span>
             </button>
         </div>
         <div class="top-photo">
@@ -22,9 +26,7 @@
         <h3>WHAT IS VIDEO STEGANOGRAPHY?</h3>
         <p>Video steganography is a branch of data hiding, which is a technique that embeds message into cover
             contents and is used in many fields such as medical systems, law enforcement, copyright protection and
-            access control, etc.
-        </p>
-        <p>
+            access control, etc.<br><br>
             Since human visual system are less sensitive to the small changes of digital medias, especially for
             digital video, video steganography is a technique which hides message into a video and conceals the fact
             of the transmission. And it has become more popular recently because of two main reasons: Along with the
@@ -33,24 +35,10 @@
         </p>
         
         <div class="bottom-photo">
-            <img src="/media/icons/Digram.png" style="width: 100%;">
+            <img src="/media/icons/Digram.png" style="width: 100%;" >
         </div>
     </div>
 </div>
-<footer id="homeFooter">
-    <div class="footer">
-      <div class="footer_about">
-        <h1>Camouflage</h1>
-        <p>Hide yout message in plain sight.</p>
-      </div>
-      
-      <div class="socials">
-        <h1>FOLLOW US:</h1>
-        <a href="#" class="fa fa-facebook"></a>
-        <a href="#" class="fa fa-instagram"></a>
-        <a href="#" class="fa fa-linkedin"></a>
-      </div>
-    </div>
-  </footer>
+
 
 {% endblock %}

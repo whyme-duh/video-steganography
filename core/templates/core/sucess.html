@@ -4,9 +4,16 @@
 
 
 
-<!-- <video width="450" height="500" controls>
-    <source src="/media{{request.session.encoded_video}}" type="video/avi">
-    Your browser does not support the video tag.
-  </video> -->
-  <a href="/media/{{request.session.encoded_video}}" download>Download Video</a>
+<div class="main container">
+  
+  <div class="card-design">
+    <h5 class="successfully ">Encoded Video</h5>
+    <a href="/media/{{request.session.encoded_video}}" class="btn btn-info">Download Video</a>
+  </div>
+  <h1 class="mt-5">You can try:</h1>
+  <div class="btn-list d-flex justify-content-between w-25 mt-2">
+    <a href="{% url 'encode' %}" class="btn btn-success text-white">Video Encoding</a>
+    <a href="{% url 'decode'%}" class="btn btn-warning">Video Decoding</a>
+  </div>
+</div>
 {% endblock %}

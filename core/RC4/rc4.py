@@ -1,7 +1,6 @@
 from typing import List
 
 class RC4:
-    """RC4 is a symmetric cipher so the encryption and decryption follow the same process."""
 
     def key_scheduler(self, key: List[bytes]) -> List[bytes]:
         key_length = len(key)
@@ -23,20 +22,6 @@ class RC4:
             yield K
 
     def __call__(self, key: str, message_ascii_list: List[int], encrypt: bool = True) -> str:
-        """Allows to use the created object as a function.
-
-        Args:
-            message: List[int] = List of ascii values of the text.
-            key: str = The string key used to encrypt/decrypt.
-            encrypt: bool = Choose whether to encrypt or decrypt
-
-        Returns:
-            Encrypted/Decrypted message.
-
-        Example Usage:
-            rc4 = RC4()
-            cipher = rc4("key", "Hello World")
-        """
         key_ascii_list = [ord(c) for c in key]
 
         scheduled_keys = self.key_scheduler(key_ascii_list)
@@ -50,7 +35,6 @@ class RC4:
                 cipher_text.append(f'{integer:08b}')
             else:
                 cipher_text.append(chr(integer))
-        print(len(cipher_text))
         return ''.join(cipher_text)
 
 
@@ -59,19 +43,9 @@ class RC4:
         plaintext = [ord(c) for c in plaintext]
         return self.__call__(key=key, message_ascii_list=plaintext)
 
+
     def decrypt(self,key:str, ciphertext: str) -> str:
-        """The cipher text in binary form"""
         ciphertext = [int(ciphertext[i*8:i*8+8], base=2) for i in range(len(ciphertext)//8)]
         return self.__call__(key=key, message_ascii_list=ciphertext, encrypt=False)
+
     
-    SIGNATURE = "RC4SIG"
-
-    def encrypt_with_signature(self, key: str, plaintext: str) -> str:
-        return self.encrypt(key, self.SIGNATURE + plaintext)
-
-    def decrypt_with_signature(self, key: str, ciphertext: str) -> str:
-        decrypted_text = self.decrypt(key, ciphertext)
-        if decrypted_text.startswith(self.SIGNATURE):
-            return decrypted_text[len(self.SIGNATURE):]
-        else:
-            raise ValueError("Incorrect key or corrupted message")

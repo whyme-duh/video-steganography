@@ -22,7 +22,8 @@ class EncodeForm(forms.ModelForm):
            raise forms.ValidationError("Secret key should not exceed 10 characters")
         if (len(message) > 50):
             self._errors['message'] = self.error_class(['The message should not be more than 50 characters'])
-        if (encoded_file_name.endswith('.mp4') or encoded_file_name.endswith('.avi') or encoded_file_name.endswith('.png')):
+        if (encoded_file_name.endswith('.mp4') or encoded_file_name.endswith('.avi') or encoded_file_name.endswith('.png') or 
+            encoded_file_name.endswith('.jpg') or encoded_file_name.endswith('.jpeg') or encoded_file_name.endswith('.mkv')):
             self._errors['encoded_file_name'] = self.error_class(['The filename should not have any extension.'])
         
         return self.cleaned_data

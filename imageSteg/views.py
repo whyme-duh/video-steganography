@@ -1,3 +1,5 @@
+import re
+import time
 from django.shortcuts import redirect, render
 from .forms import ImageEncodeForm, DecodeForm
 from PIL import Image
@@ -76,7 +78,8 @@ def encode_enc(newimg, data):
 			x += 1
 			
 def encode(request, files, data):
-	print(files, data)
+	start = time.time()
+	print(str(files))
 	image = Image.open(files, 'r')
 
 	if (len(data) == 0):
@@ -84,10 +87,12 @@ def encode(request, files, data):
 
 	newimg = image.copy()
 	encode_enc(newimg, data)
-	# new_img_name = input("Enter the name of new image(with extension) : ")
 	newimg.save('C:/Users/ritik_yxb9lpe/OneDrive/Documents/python-django-projects/steganography/camouflage/media/encoded/image_encode/encoded.png')
 	request.session['image_location'] = 'media/encoded/image_encode/encoded.png'
+	end = time.time()
+	completion_time = end-start
 	messages.success(request, f'Encoded Successfully!')
+	return completion_time
 
 def image_sucess(request):
 	return render(request, 'imageSteg/success.html')
@@ -101,7 +106,8 @@ def encode_request(request):
 		form_list.save()
 		image = form.cleaned_data['image_file']
 		message = form.cleaned_data['message']
-		encode(request,image,message)
+		completion_time = encode(request,image,message)
+		request.session['completion_time'] = completion_time
 		return redirect('image-success')
 	
 	context = {
@@ -134,6 +140,8 @@ def decode(image_file):
 			return data
 		
 def decode_req(request):
+	error = False
+	sent_message =False
 	form = DecodeForm()
 	data =''
 	if request.method == 'POST':
@@ -141,7 +149,15 @@ def decode_req(request):
 		if form.is_valid():
 			encoded_file = form.cleaned_data['encoded_image']
 			data = "Your decoded message is : " + decode(encoded_file)
-			messages.success(request, f'Decoded Successfully ')
-	return render(request, 'imageSteg/imageDecode.html', {'form' : form, 'data' : data})
+			if re.match("^[ -~\s]+$", data):
+				sent_message =True
+				with open('media/image_decode.txt', 'w') as f:
+					f.write(data)
+				messages.success(request, f'Decoded Successfully ')
+			else:
+				error = True
+				sent_message = True
+				data = "error"
+	return render(request, 'imageSteg/imageDecode.html', {'form' : form, 'data' : data, 'sent_message':sent_message, 'error': error})
 
 			

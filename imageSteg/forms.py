@@ -9,7 +9,7 @@ class ImageEncodeForm(forms.ModelForm):
         fields = ["image_file",  'message']
 
     message = forms.CharField(required=True)
-
+    
 
 class DecodeForm(forms.Form):
     encoded_image = forms.FileField( validators=[FileExtensionValidator(allowed_extensions=["png", "jpg","jpeg"])])

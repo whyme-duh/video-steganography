@@ -463,6 +463,7 @@ class Video:
 
 
 def encode(request):
+    
     form = EncodeForm(request.POST or None, request.FILES or None)
     context = {'form': form}
 
@@ -484,7 +485,7 @@ def encode(request):
                     form_list.encoded_file = output_path
                     request.session['encoded_video'] = "/encoded/" + encoded_filename + '.avi'
                     form_list.save()
-                    messages.success(request, 'Encoded')
+                    messages.success(request, 'Your video has been encoded succesfully')
                     return redirect('success')
                 else:
                     messages.error(request, "Error during encoding.")

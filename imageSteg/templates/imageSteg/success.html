@@ -4,14 +4,21 @@
 
 
 
-<div class="results">
+<div class="results container ">
     {% if request.session.image_location %}
-        <a href="/{{request.session.image_location}}" download> download</a>
-        <img src="/{{request.session.image_location}}" alt="" width="350px" height="350px" >
+        <!-- <img src="/{{request.session.image_location}}" alt="image-steg" width="500px" height="500px"> -->
+        <h5>Completion Time : {{request.session.completion_time}} ms</h5>
+        <a href="/{{request.session.image_location}}" class="btn btn-primary text-white" download> Download Encoded Image</a>
+        <h5 class="mt-md-5">You can also try</h5>
+        <div class="btns mt-md-3">
+            <a href="{% url 'image-steg' %}" class="btn btn-secondary text-white">Encode Again </a>
+            <a href="{% url 'image-decode' %}" class="btn btn-info text-dark">Dncode the encoded image</a>
+
+        </div>
 
     {% else %}
     <h5>nothing</h5>
     {% endif%}
 </div>
-<a href="{% url 'image-steg' %}" class="btn btn-secondary text-white">Encode the Message in Image</a>
+
 {% endblock %}
