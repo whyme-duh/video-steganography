@@ -6,8 +6,8 @@
 
 <div class="main container">
   <p>Completion Time {{request.session.video_completion_time}} ms</p>
-  <div class="card-design">
-    <h5 class="successfully ">Encoded Video</h5>
+  <div class="card-design d-flex align-items-center justify-content-start  ">
+    <h5 class="successfully ">Your Encoded Video : &nbsp; </h5>
     <a href="/media/{{request.session.encoded_video}}" class="btn btn-info">Download Video</a>
   </div>
   <h1 class="mt-5">You can try:</h1>

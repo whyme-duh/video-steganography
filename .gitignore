@@ -9,6 +9,8 @@ media
 # Backup files # 
 *.bak 
 
+previouscode.py
+
 # If you are using PyCharm # 
 # User-specific stuff
 .idea/**/workspace.xml

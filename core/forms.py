@@ -9,7 +9,7 @@ class EncodeForm(forms.ModelForm):
 
     secret_key = forms.CharField(required=True ,max_length=10)
     message = forms.CharField(required=True, max_length=80)
-    encoded_file_name = forms.CharField(required=True, max_length=10)
+    encoded_file_name = forms.CharField(required=True, max_length=20)
     video = forms.FileField(required= True, validators=[FileExtensionValidator(allowed_extensions=["AVI"])])
 
 

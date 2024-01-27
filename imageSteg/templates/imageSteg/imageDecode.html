@@ -1,5 +1,6 @@
 {%extends 'core/index.html' %}
 {% load widget_tweaks %}
+{% block title %}Image Decode{% endblock%}
 
 {% block content %}
 
@@ -10,7 +11,7 @@
             <button id="video-button">Place your video here </button>
         </div> -->
         <div class="encode-inputs">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data" id="myform">
                 {% csrf_token %}
                 <div class="form-outline mb-4">
                     <label class="form-label" >Upload Your Encoded image</label>
@@ -21,28 +22,44 @@
                 </div>
         
                 
-                <button id="encode-button" type="submit">Decode</button> 
+                <button id="encode-button" type="submit">Decode</button>
+                 
             </form>
+            <div class="spinner-border" role="status" id="spinner">
+                <span class="sr-only">Loading...</span>
+            </div>
            
         </div>
 
         {% if sent_message %}
-            <div class="card" id="card">
-                {% if error %}
-                <div class="title">
-                    <h5 class="error">Error</h5>
-                    <button class="close-btn" id="closebtn">X</button>
+            <div id="card-container">
+                <div class="card" id="card">
+                    {% if error %}
+                    <div class="title">
+                        <h5 class="error">Error</h5>
+                        <button class="close-btn" id="closebtn">X</button>
+                    </div>
+                    <h5 class="message">{{data}}</h5>
+                    <h5 class="reason"><b>Reason</b> : {{reason}}</h5>
+                    <div class="btns-group d-flex w-100 justify-content-evenly align-items-center ">
+                        <a href="{% url 'image-decode' %}" class="btn btn-secondary text-white w-25 mt-md-4">Decode Again</a>
+                        <a href="{% url 'image-steg' %}" class="btn btn-success text-white w-25 mt-md-4">Encode Photo</a>
+                    </div>
+                    {% else %}
+                    <div class="title">
+                        <h5 class="successfully">Decoded Successfully</h5>
+                        <button class="close-btn" id="closebtn">X</button>
+                    </div>
+                    <p>Completion Time : {{completion_time}} ms</p>
+                    <h4 class="message">{{data}}</h5>
+                    <a href="/media/image_decode.txt" class="btn btn-success text-white w-25 mt-md-4" download>Export in Text </a>
+                    <h5 class="mt-md-3">Or you can try</h5>
+                    <div class="btns-group d-flex w-100 justify-content-evenly align-items-center ">
+                        <a href="{% url 'image-decode' %}" class="btn btn-secondary text-white w-25 mt-md-4">Decode Again</a>
+                        <a href="{% url 'image-steg' %}" class="btn btn-success text-white w-25 mt-md-4">Encode Photo</a>
+                    </div>
+                    {% endif %}
                 </div>
-                <h5 class="message">{{data}}</h5>
-                <a href="{% url 'image-decode' %}" class="btn btn-secondary text-white w-25 mt-md-4">Decode Again</a>
-                {% else %}
-                <div class="title">
-                    <h5 class="successfully">Decoded Successfully</h5>
-                    <button class="close-btn" id="closebtn">X</button>
-                </div>
-                <h5 class="message">{{data}}</h5>
-                <a href="/media/image_decode.txt" class="btn btn-success text-white w-25 mt-md-4" download>Export in Text </a>
-                {% endif %}
             </div>
-            {% endif %}
+        {% endif %}
 {% endblock %}

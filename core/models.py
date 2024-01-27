@@ -9,7 +9,7 @@ class Encoding(models.Model):
     message = models.CharField(max_length = 80, null = True, blank = True)
     encoded_file = models.FileField(upload_to='encoded/', null = True )
     user = models.ForeignKey(User, on_delete = models.CASCADE, null =True)
-    encoded_file_name = models.CharField(max_length = 10, null = True, blank = True)
+    encoded_file_name = models.CharField(max_length = 20, null = True, blank = True)
     
 
    

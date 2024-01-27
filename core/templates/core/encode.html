@@ -1,14 +1,15 @@
 {%extends 'core/index.html' %}
 
 {% load widget_tweaks %}
-
+{% block title %}Video Encode{% endblock%}
 {% block content %}
+
     <div class="main col-md-12 col-xs-12">
         {{message}}
         <h1>Encode Video Now.</h1>
         <p id="encode-message">Hide your message inside any video with an ease.</p>
         <div class="encode-inputs ">
-            <form enctype = "multipart/form-data" method="POST" >
+            <form enctype = "multipart/form-data" method="POST" id="myform" a>
                 {% csrf_token %}
                 <div class="form-outline mb-4">
                     <label class="form-label" >Upload Your video</label>
@@ -41,6 +42,9 @@
                 <button id="encode-button" type="submit">Encode</button> 
 
             </form> 
+            <div class="spinner-border" role="status" id="spinner">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
 
     </div>
