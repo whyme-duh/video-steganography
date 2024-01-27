@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('myform').addEventListener('submit', function(){
-        document.getElementById('spinner').style.display = 'block';
+        document.getElementById('spinner-container').style.display = 'block';
         console.log('loading');
     });
     var element = document.getElementById('card');

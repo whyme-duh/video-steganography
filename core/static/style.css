@@ -85,10 +85,7 @@ nav {
     
 }
 
-#message-container{
-    animation: messageAnimation 0.5s ease-in-out;
-    
-}
+
 @keyframes headingAnimation {
     0%{
         left:-500px;
@@ -148,7 +145,10 @@ nav {
     font-size: 1.25em;
     font-weight: bolder;
 }
-
+.main{
+    position: relative;
+    animation: messageAnimation 1.25s;
+}
 #pink-button {
     margin-top: 1em;
     background-color: #F9ECEC;
@@ -166,6 +166,23 @@ nav {
     padding: 1em;
     position: relative;
     animation: headingAnimation 1.5s;
+    padding-inline: 2em;
+    border-radius: 14px;
+    border: none;
+}
+#pink-button-success{
+    margin-top: 1em;
+    background-color: #F9ECEC;
+    padding: 1em;
+    padding-inline: 2em;
+    border-radius: 14px;
+    border: none;
+}
+#pink-button-two-success{
+    margin-right: 0.5em;
+    margin-top: 1em;
+    background-color: #cd866f;
+    padding: 1em;
     padding-inline: 2em;
     border-radius: 14px;
     border: none;
@@ -304,6 +321,21 @@ input[type="number"] {
     border-radius: 5px;
 }
 
+.btn-list{
+    border: 1px solid gray;
+    width: 100%;
+    padding: 0.5em;
+    border-radius: 10px;
+    padding-bottom: 1.5em;
+}
+.output-information{
+    border: 1px solid gray;
+    width: 100%;
+    padding: 1.5em;
+    border-radius: 10px;
+    padding-bottom: 1.5em;
+}
+
 .about {
     display: flex;
     margin-top: 50px;
@@ -387,14 +419,32 @@ ul {
 }
 
 /* spiinner */
-#spinner{
+#spinner-container{
     display: none;
     position: absolute;
-    background: rgba(255, 255, 255, 0.8);
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 250vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.902);
+}
+#spinner{
+    position: absolute;
+    background: rgba(255, 254, 254, 0.8);
     z-index: 1000;
     text-align: center;
+    top: 70%;
+    left: 50%;
 }
-
+#loadingText{
+    position: absolute;
+    z-index: 1000;
+    text-align: center;
+    top: 72%;
+    left: 49%;
+    font-size: 1em;
+}
 /* for the card design after decoding */
 #card-container{
     position: absolute;
@@ -415,7 +465,6 @@ ul {
     text-align: center;
     align-items: center;
     z-index: 0;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.537);
 }
 
 

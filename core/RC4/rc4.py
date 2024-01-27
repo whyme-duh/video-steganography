@@ -1,7 +1,6 @@
 from typing import List
 
 class RC4:
-
     def key_scheduler(self, key: List[bytes]) -> List[bytes]:
         key_length = len(key)
         S = list(range(256))
@@ -23,11 +22,8 @@ class RC4:
 
     def __call__(self, key: str, message_ascii_list: List[int], encrypt: bool = True) -> str:
         key_ascii_list = [ord(c) for c in key]
-
         scheduled_keys = self.key_scheduler(key_ascii_list)
         key_stream = self.pseudo_random_gen(scheduled_keys)
-
-        # Save cipher in binary form 0-11111111
         cipher_text = []
         for char in message_ascii_list:
             integer = char ^ next(key_stream)
@@ -36,13 +32,10 @@ class RC4:
             else:
                 cipher_text.append(chr(integer))
         return ''.join(cipher_text)
-
-
     
     def encrypt(self, key: str, plaintext: str) -> str:
         plaintext = [ord(c) for c in plaintext]
         return self.__call__(key=key, message_ascii_list=plaintext)
-
 
     def decrypt(self,key:str, ciphertext: str) -> str:
         ciphertext = [int(ciphertext[i*8:i*8+8], base=2) for i in range(len(ciphertext)//8)]

@@ -5,15 +5,30 @@
 
 
 <div class="main container">
-  <p>Completion Time {{request.session.video_completion_time}} ms</p>
-  <div class="card-design d-flex align-items-center justify-content-start  ">
-    <h5 class="successfully ">Your Encoded Video : &nbsp; </h5>
-    <a href="/media/{{request.session.encoded_video}}" class="btn btn-info">Download Video</a>
+
+  <div class="output-information">
+    <p><b>Completion Time</b> {{request.session.video_completion_time}} s</p>
+    <div class="card-design d-flex align-items-center justify-content-start  ">
+      <h5 class="successfully "><b>Your Encoded Video</b> : &nbsp; </h5>
+      <a href="/media/{{request.session.encoded_video}}" class="btn btn-info" download>Download Video</a>
+    </div>
   </div>
-  <h1 class="mt-5">You can try:</h1>
-  <div class="btn-list d-flex justify-content-between w-25 mt-2">
-    <a href="{% url 'encode' %}" class="btn btn-success text-white">Video Encoding</a>
-    <a href="{% url 'decode'%}" class="btn btn-warning">Video Decoding</a>
+  <h3 class="mt-5">Available Features:</h3>
+  <div class="other-features d-flex justify-content-evenly w-100">
+    <div class="video d-flex flex-column w-50 m-2">
+      <h5 style="color: rgb(90, 88, 88);" class="mt-md-4">For Video</h5>
+      <div class="btn-list d-flex justify-content-evenly">
+        <a href="{% url 'encode' %}" id="pink-button-success">Video Encoding</a>
+        <a href="{% url 'decode'%}" id="pink-button-two-success" class="ms-md-3">Video Decoding</a>
+      </div>
+    </div>
+    <div class="image d-flex flex-column w-50 m-2">
+      <h5 style="color: rgb(90, 88, 88);" class="mt-md-4">For Image</h5>
+      <div class="btn-list d-flex justify-content-evenly">
+        <a href="{% url 'image-steg' %}" id="pink-button-success">Image Encoding</a>
+        <a href="{% url 'image-decode'%}" id="pink-button-two-success" class="ms-md-3">Image Decoding</a>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -25,11 +25,10 @@
                 <button id="encode-button" type="submit">Decode</button>
                  
             </form>
-            <div class="spinner-border" role="status" id="spinner">
-                <span class="sr-only">Loading...</span>
-            </div>
+           
            
         </div>
+       
 
         {% if sent_message %}
             <div id="card-container">
@@ -50,7 +49,7 @@
                         <h5 class="successfully">Decoded Successfully</h5>
                         <button class="close-btn" id="closebtn">X</button>
                     </div>
-                    <p>Completion Time : {{completion_time}} ms</p>
+                    <p>Completion Time : {{completion_time}} s</p>
                     <h4 class="message">{{data}}</h5>
                     <a href="/media/image_decode.txt" class="btn btn-success text-white w-25 mt-md-4" download>Export in Text </a>
                     <h5 class="mt-md-3">Or you can try</h5>
@@ -60,6 +59,12 @@
                     </div>
                     {% endif %}
                 </div>
+            </div>
+            <div id="spinner-container">
+                <div class="spinner-border" role="status" id="spinner">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <h5 class="text-white" id="loadingText">Loading...</h5>
             </div>
         {% endif %}
 {% endblock %}
