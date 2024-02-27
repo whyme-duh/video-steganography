@@ -12,34 +12,49 @@ def genData(data):
 		return newd
 
 def modPix(pix, data):
-	datalist = genData(data)
-	lendata = len(datalist)
-	imdata = iter(pix)
-	for i in range(lendata):
-		pix = [value for value in imdata.__next__()[:3] +
-								imdata.__next__()[:3] +
-								imdata.__next__()[:3]]
-		for j in range(0, 8):
-			if (datalist[i][j] == '0' and pix[j]% 2 != 0):
-				pix[j] -= 1
-			elif (datalist[i][j] == '1' and pix[j] % 2 == 0):
-				if(pix[j] != 0):
-					pix[j] -= 1
-				else:
-					pix[j] += 1
-		if (i == lendata - 1):
-			if (pix[-1] % 2 == 0):
-				if(pix[-1] != 0):
-					pix[-1] -= 1
-				else:
-					pix[-1] += 1
-		else:
-			if (pix[-1] % 2 != 0):
-				pix[-1] -= 1
-		pix = tuple(pix)
-		yield pix[0:3]
-		yield pix[3:6]
-		yield pix[6:9]
+    datalist = genData(data)
+    lendata = len(datalist)
+    imdata = iter(pix)
+
+    for i in range(lendata):
+        pix = [value for value in imdata.__next__()[:3] +
+                            imdata.__next__()[:3] +
+                            imdata.__next__()[:3]]
+        for j in range(0, 8):
+            original_lsb = pix[j] % 2
+            if (datalist[i][j] == '0' and original_lsb != 0):
+                pix[j] -= 1
+            elif (datalist[i][j] == '1' and original_lsb == 0):
+                if(pix[j] != 0):
+                    pix[j] -= 1
+                else:
+                    pix[j] += 1
+            new_lsb = pix[j] % 2
+            if original_lsb != new_lsb:
+                print(f"Changed LSB at position {j}. Original LSB: {original_lsb}, New LSB: {new_lsb}")
+        if (i == lendata - 1):
+            original_lsb = pix[-1] % 2
+            if (pix[-1] % 2 == 0):
+                if(pix[-1] != 0):
+                    pix[-1] -= 1
+                else:
+                    pix[-1] += 1
+            new_lsb = pix[-1] % 2
+            if original_lsb != new_lsb:
+                print(f"Changed LSB at last position. Original LSB: {original_lsb}, New LSB: {new_lsb}")
+        else:
+            original_lsb = pix[-1] % 2
+            if (original_lsb != 0):
+                pix[-1] -= 1
+            new_lsb = pix[-1] % 2
+            if original_lsb != new_lsb:
+                print(f"Changed LSB at last position. Original LSB: {original_lsb}, New LSB: {new_lsb}")
+
+        pix = tuple(pix)
+        yield pix[0:3]
+        yield pix[3:6]
+        yield pix[6:9]
+
 
 def encode_enc(newimg, data):
 	w = newimg.size[0]
@@ -88,10 +103,6 @@ def encode_request(request):
 	return render(request, 'imageSteg/imageEncode.html',context )
 
 def decode(image_file):
-	start = time.time()
-
-	
-
 	try:
 		image = Image.open(image_file, 'r')
 		data = ''
@@ -144,7 +155,6 @@ def decode_req(request):
 				sent_message = True
 				data = "Could not decode the given image. "
 				reason = "Might be because of image not being encoded."
-	
 	return render(request, 'imageSteg/imageDecode.html', {'form' : form, 'data' : data, 'sent_message':sent_message, 'error': error, 'completion_time' : completion_time, 'reason' : reason})
 
 			

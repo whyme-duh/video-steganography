@@ -53,6 +53,9 @@ nav {
     display: none;
     background-color:white ;
 }
+.dropdown-menu li{
+    padding: 0.25em;
+}
 .dropdown:hover{
     opacity: 0.75;
     cursor: pointer;
@@ -459,6 +462,7 @@ ul {
     display: none;
     width: 50%;
     position: absolute;
+    top: 10%;
     left: 50%;
     transform: translate(-50%, 70%);
     padding: 2em;
@@ -466,7 +470,35 @@ ul {
     align-items: center;
     z-index: 0;
 }
+.stop-scrolling{
+    height: 100%;
+    overflow: hidden;
+}
 
+/* @media only screen and (min-width:1200px) {
+    #card-container{
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 150vh;
+        width: 100%;
+        z-index:1;
+        background-color: rgba(0, 0, 0, 0.902);
+    }
+    .card{
+        display: none;
+        width: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 2em;
+        text-align: center;
+        align-items: center;
+        z-index: 0;
+    }
+    
+} */
 
 .title{
     display: flex;

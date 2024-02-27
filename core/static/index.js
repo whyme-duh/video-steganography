@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('myform').addEventListener('submit', function(){
         document.getElementById('spinner-container').style.display = 'block';
         console.log('loading');
+        document.getElementsByTagName('body').classList.add('stop-scrolling');
     });
     var element = document.getElementById('card');
     

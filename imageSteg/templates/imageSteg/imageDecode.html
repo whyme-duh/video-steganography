@@ -51,12 +51,13 @@
                     </div>
                     <p>Completion Time : {{completion_time}} s</p>
                     <h4 class="message">{{data}}</h5>
-                    <a href="/media/image_decode.txt" class="btn btn-success text-white w-25 mt-md-4" download>Export in Text </a>
-                    <h5 class="mt-md-3">Or you can try</h5>
-                    <div class="btns-group d-flex w-100 justify-content-evenly align-items-center ">
-                        <a href="{% url 'image-decode' %}" class="btn btn-secondary text-white w-25 mt-md-4">Decode Again</a>
-                        <a href="{% url 'image-steg' %}" class="btn btn-success text-white w-25 mt-md-4">Encode Photo</a>
+                    <div class="btns-group d-flex justify-content-evenly align-items-center w-100">
+                        <a href="/media/image_decode.txt" class="btn btn-success text-white w-25 mt-md-4 m-md-2" download>Export in Text </a>
+                        <a href="{% url 'image-steg' %}" class="btn btn-info text-white w-25 mt-md-4 m-md-2">Encode Photo</a>
+                        <a href="{% url 'image-decode' %}" class="btn btn-secondary text-white w-25 mt-md-4 m-md-2">Decode Again</a>
+                    
                     </div>
+                   
                     {% endif %}
                 </div>
             </div>
