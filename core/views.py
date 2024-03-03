@@ -8,6 +8,7 @@ from . forms import DecodeForm, EncodeForm
 from PIL import Image
 from django.contrib import messages
 from moviepy.editor import VideoFileClip
+
 from .RC4.rc4 import RC4
 
 
@@ -139,7 +140,7 @@ class Video:
 
                     
     @staticmethod
-    def write_video(frames, audio, output_path, fps):
+    def write_video(request,frames, audio, output_path, fps):
         height, width, layers = frames[0].shape
         fourcc = cv2.VideoWriter_fourcc(*'FFV1') 
         video_writer = cv2.VideoWriter('temp_video.avi', fourcc, fps, (width, height))
@@ -148,6 +149,7 @@ class Video:
         video_writer.release()
         video_clip = VideoFileClip('temp_video.avi')
         video_clip.set_audio(audio).write_videofile(output_path,codec='ffv1', audio_codec='aac')
+        request.session['encoded_size_video']= round((os.path.getsize(output_path)/1024**2),2)
         os.remove('temp_video.avi')
 
 
@@ -167,13 +169,14 @@ def encode(request):
                 encoded_frames = Video.encode(key=secret_key, message=message, frames=frames)
                 if encoded_frames is not None:
                     output_path = "media/encoded/" + encoded_filename + '.avi'
-                    Video.write_video(frames=encoded_frames, audio=audio, output_path=output_path, fps=fps)
+                    Video.write_video(request, frames=encoded_frames, audio=audio, output_path=output_path, fps=fps)
                     form_list.encoded_file_name = encoded_filename
                     form_list.encoded_file = output_path
+                    request.session['original_size_video'] =round((os.path.getsize(file_location)/1024**2),2)
                     request.session['encoded_video'] = "/encoded/" + encoded_filename + '.avi'
                     form_list.save()
                     end = time.time()
-                    completion = end - start
+                    completion = round(end - start,2)
                     request.session['video_completion_time'] = completion
                     messages.success(request, 'Your video has been encoded succesfully')
                     return redirect('success')
@@ -208,7 +211,7 @@ def decode(request):
                 secret_key = "Secret Key : " + secret_key
                 message = "Your decoded message : " +  decoded_message
                 end = time.time()
-                completion_time = end - start
+                completion_time = round(end - start,2)
                 lines = [secret_key, message]
                 with open('media/decode.txt', 'w') as f:
                     for line in lines:

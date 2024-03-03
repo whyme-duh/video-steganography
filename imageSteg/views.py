@@ -1,9 +1,11 @@
+import os
 import re
 import time
 from django.shortcuts import redirect, render
 from .forms import ImageEncodeForm, DecodeForm
 from PIL import Image, UnidentifiedImageError
 from django.contrib import messages
+from hurry.filesize import size
 
 def genData(data):
 		newd = []
@@ -69,16 +71,18 @@ def encode_enc(newimg, data):
 			
 def encode(request, files, data):
 	start = time.time()
-	print(str(files))
 	image = Image.open(files, 'r')
 	if (len(data) == 0):
 		raise ValueError('Data is empty')
 	newimg = image.copy()
 	encode_enc(newimg, data)
+	del request.session['image_location']
+	del request.session['image_size']
 	newimg.save('C:/Users/ritik_yxb9lpe/OneDrive/Documents/python-django-projects/steganography/camouflage/media/encoded/image_encode/encoded.png')
 	request.session['image_location'] = 'media/encoded/image_encode/encoded.png'
+	request.session['image_size'] = round(os.path.getsize('C:/Users/ritik_yxb9lpe/OneDrive/Documents/python-django-projects/steganography/camouflage/media/encoded/image_encode/encoded.png')/1024**2,2)
 	end = time.time()
-	completion_time = end-start
+	completion_time = round(end-start,2)
 	messages.success(request, f'Encoded Successfully!')
 	return completion_time
 
@@ -93,6 +97,8 @@ def encode_request(request):
 		form_list.user = request.user
 		form_list.save()
 		image = form.cleaned_data['image_file']
+		request.session['original_image'] = 'media/images/'+str(image)
+		request.session['original_image_size'] = round(image.size/1024**2,2)
 		message = form.cleaned_data['message']
 		completion_time = encode(request,image,message)
 		request.session['completion_time'] = completion_time
@@ -148,7 +154,7 @@ def decode_req(request):
 				with open('media/image_decode.txt', 'w') as f:
 					f.write(data)
 				end = time.time()
-				completion_time = end-start
+				completion_time = round(end-start,2)
 				messages.success(request, f'Decoded Successfully ')
 			else:
 				error = True

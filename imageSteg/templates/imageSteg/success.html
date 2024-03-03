@@ -8,11 +8,26 @@
     {% if request.session.image_location %}
         <!-- <img src="/{{request.session.image_location}}" alt="image-steg" width="500px" height="500px"> -->
         <div class="output-information">
-            <p><b>Completion Time</b> {{request.session.completion_time}} s</p>
-            <div class="card-design d-flex align-items-center justify-content-start  ">
-              <h5 class="successfully "><b>Your Encoded Image</b> : &nbsp; </h5>
+            <div class="card-design d-flex align-items-center justify-content-between  ">
+              <h5><b>Completion Time</b> {{request.session.completion_time}} s</h5>
               <a href="/{{request.session.image_location}}" class="btn btn-info" download>Download Image</a>
             </div>
+            <div class="row d-flex flex-row justify-content-between mt-3">
+              <div class="original d-flex flex-column col-md-5">
+                <h5>Original Image</h5>
+                <img src="/{{request.session.original_image}}" alt="img" width="350" height="250">
+                <p class="pt-2"> <b>Size</b>: {{request.session.original_image_size}} MB</p>
+              </div>
+              <div class="decode-image d-flex flex-column col-md-5">
+                <h5>Encoded Image</h5>
+                <img src="/{{request.session.image_location}}" alt="img" width="350" height="250">
+                <p class="pt-2"><b>Size</b>: {{request.session.image_size}} MB</p>
+
+              </div>
+              
+            </div>
+
+            
           </div>
           <h3 class="mt-5">Available Features:</h3>
           <div class="other-features d-flex justify-content-evenly w-100">
