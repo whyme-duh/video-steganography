@@ -1,0 +1,41 @@
+{% extends 'core/index.html' %}
+
+{% block content %}
+
+
+
+<div class="main container">
+
+  <div class="output-information">
+    <div class="card-design d-flex align-items-center justify-content-between  ">
+      <h5><b>Completion Time</b>: {{request.session.video_completion_time}} s</h5>
+      <a href="/media/{{request.session.encoded_video}}" class="btn btn-info" download>Download Video</a>
+    </div>
+    
+    <div class="compare d-flex flex-column mt-4">
+      <p><b>Original Video Size</b>: {{request.session.original_size_video}} MB</p>
+      <p><b>Encoded Video Size</b>: {{request.session.encoded_size_video}} MB</p>
+    </div>
+    
+    <!-- hi <object data="{{request.session.encoded_video}}" width="360" height="250"> <param name="src" value="media{{request.session.encoded_video}}"/>
+      <embed type="video/x-ms-wm" src="{{request.session.encoded_video}}" width="360" height="250"></embed>  </object>
+  </div> -->
+  <h5 class="mt-3"><b>Available Features</b>:</h5>
+  <div class="other-features d-flex justify-content-evenly w-100">
+    <div class="video d-flex flex-column w-50 m-2">
+      <h5 style="color: rgb(90, 88, 88);" class="mt-md-4">For Video</h5>
+      <div class="btn-list d-flex justify-content-evenly">
+        <a href="{% url 'encode' %}" id="pink-button-success">Video Encoding</a>
+        <a href="{% url 'decode'%}" id="pink-button-two-success" class="ms-md-3">Video Decoding</a>
+      </div>
+    </div>
+    <div class="image d-flex flex-column w-50 m-2">
+      <h5 style="color: rgb(90, 88, 88);" class="mt-md-4">For Image</h5>
+      <div class="btn-list d-flex justify-content-evenly">
+        <a href="{% url 'image-steg' %}" id="pink-button-success">Image Encoding</a>
+        <a href="{% url 'image-decode'%}" id="pink-button-two-success" class="ms-md-3">Image Decoding</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

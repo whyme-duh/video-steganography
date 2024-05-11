@@ -1,0 +1,43 @@
+{%extends 'core/index.html' %}
+{% load widget_tweaks %}
+{% block title %}Image Encode{% endblock%}
+
+{% block content %}
+    <div class="main">
+        {{message}}
+        <h1>Encode Image Now.</h1>
+        <p id="encode-message">Hide your message inside any image with an ease.</p>
+        <div class="encode-inputs">
+            <form enctype = "multipart/form-data" method="POST"  id="myform">
+                {% csrf_token %}
+                <div class="form-outline mb-4">
+                    <label class="form-label" >Upload Image</label>
+    
+                    {% render_field form.image_file class="form-control" %}
+                    <small style="color:red;font-size: 1em;">{{form.image_file.errors}}</small>
+                    
+    
+                </div>
+                
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="message">Message</label>
+                    {% render_field form.message class="form-control" placeholder="Enter Message" type="message" %}
+                    <small style="color:red;font-size: 1em;">{{form.message.errors}}</small>
+    
+                </div>
+               
+                <button id="encode-button" type="submit">Encode</button> 
+            </form> 
+            
+        </div>
+
+    </div>
+    <div id="spinner-container">
+        <div class="spinner-border" role="status" id="spinner">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <h5 class="text-white" id="loadingText">Loading...</h5>
+    </div>
+   
+
+{%endblock %}

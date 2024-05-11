@@ -1,0 +1,64 @@
+{% extends 'core/index.html' %}
+{% block content %}
+ 
+<div class="main">
+    <div class="top-part">
+        <div class="top-info">
+            <h3>HIDE YOUR TEXT MESSAGE IN <span class="bold">VIDEOS / IMAGES</span></h3>
+            <p>
+                Experience the Secret Language of Videos/Images. Dive into Hidden Messages with <span
+                    class="bold">Steganography</span>!
+            </p>
+            <button id="pink-button-two">
+                <span class="bold">
+                    <a href="{%url 'encode' %}">Encode Video</a></span>
+            </button>
+            <button id="pink-button">
+                <span class="bold">
+                    <a href="{%url 'image-steg' %}">Encode Image</a></span>
+            </button>
+        </div>
+        <div class="top-photo">
+            <img src="/media/icons/3198965 1.png" style="width: 100%;">
+        </div>
+    </div>
+    <div class="bottom-part">
+        <div class="content-right">
+            <h3>WHAT IS VIDEO STEGANOGRAPHY?</h3>
+            <p>Video steganography is a branch of data hiding, which is a technique that embeds message into cover
+                contents and is used in many fields such as medical systems, law enforcement, copyright protection and
+                access control, etc.<br><br>
+                Since human visual system are less sensitive to the small changes of digital medias, especially for
+                digital video, video steganography is a technique which hides message into a video and conceals the fact
+                of the transmission. And it has become more popular recently because of two main reasons: Along with the
+                fast development of computer applications, the security problem in information field is becoming more
+                and more serious.
+            </p>
+        </div>
+        <div class="bottom-photo">
+            <img src="/media/icons/Digram.png" style="width: 100%;" >
+        </div>
+    </div>
+    <div class="bottom-part-two pb-md-5">
+        <div class="content-right">
+            <h3>WHAT IS IMAGE STEGANOGRAPHY?</h3>
+            <p>
+                Image steganography is a method of hiding secret data within a digital image, aiming for secure communication by making the existence of the 
+                message undetectable. It involves embedding information in an image by subtly altering its digital data, which remains largely imperceptible 
+                to the human eye.<br><br>
+                
+                The applications of image steganography are diverse, ranging from secure communication to digital watermarking. In secure communication, 
+                sensitive information is transmitted without drawing attention, making it a crucial tool in the digital era where data privacy is a 
+                significant concern. Unlike traditional cryptography that only hides the content of a message, steganography conceals the existence 
+                of the message itself. In digital watermarking, creators embed a hidden mark in an image to assert copyright ownership, 
+                helping prevent unauthorized copying or distribution. However, steganography also poses ethical and security challenges. 
+            </p>
+        </div>
+        <div class="bottom-photo">
+            <img src="/media/icons/Steganography.png" id="monalisa" >
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

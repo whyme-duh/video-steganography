@@ -1,0 +1,77 @@
+{%extends 'core/index.html' %}
+{% load widget_tweaks %}
+{% block title %}Video Decode{% endblock%}
+
+{% block content %}
+<div class="main">
+    <div class="decoded-body" id="blur">
+        <h1>Decode Video Now.</h1>
+            <p id="encode-message">Decode your encoded video with an ease.</p>
+            <!-- <div class="encode-box">
+                <button id="video-button">Place your video here </button>
+            </div> -->
+            <div class="encode-inputs">
+                <form action="" method="POST" enctype="multipart/form-data" id="myform" >
+                    {% csrf_token %}
+                    <div class="form-outline mb-4">
+                        <label class="form-label" >Upload Your Encoded video</label>
+          
+                        {% render_field form.video class="form-control" %}
+                        <small style="color:red;font-size: 1em;">{{form.video.errors}}</small>
+                          
+                    </div>
+            
+                      <!-- Password input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="secret_key">Secret Key</label>
+                        {% render_field form.secret_key class="form-control" placeholder="Enter Secret Key" type="text" %}
+                        <small style="color:red;font-size: 1em;">{{form.secret_key.errors}}</small>
+          
+                    </div>
+                    
+                    
+                    
+                    <button id="encode-button" type="submit">Decode</button> 
+    
+                </form>
+               
+            </div>
+            
+    </div>
+</div>
+{% if sent_message %}
+    <div id="card-container">
+        <div class="card" id="card">
+            {% if error %}
+            <div class="title">
+                <h5 class="error">Error</h5>
+                <button class="close-btn" id="closebtn">X</button>
+            </div>
+            <h4>Error in retrieving the encoded message.</h4>
+            <h5 class="message"><b>Reason</b> : {{message}}</h5>
+            <a href="{% url 'decode' %}" class="btn btn-secondary text-white w-25 mt-md-4">Decode Again</a>
+            {% else %}
+            <div class="title">
+                <h5 class="successfully">Decoded Successfully</h5>
+                <button class="close-btn" id="closebtn">X</button>
+            </div>
+            <p>Completion Time : {{completion_time}} s</p>
+            <h5 class="message">{{message}}</h5>
+            <div class="btn-group d-flex align-items-center w-100">
+                <a href="/media/decode.txt" class="btn btn-success text-white w-25 mt-md-4 m-md-2" download>Export in Text </a>
+                <a href="{% url 'encode' %}" class="btn btn-info text-white w-25 mt-md-4 m-md-2" >Encode Video </a>
+                <a href="{% url 'decode' %}" class="btn btn-secondary text-white w-25 mt-md-4 m-md-2 " >Decode Video </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+<div id="spinner-container">
+    <div class="spinner-border" role="status" id="spinner">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <h5 class="text-white" id="loadingText">Loading...</h5>
+</div>
+
+    
+{% endblock %}
