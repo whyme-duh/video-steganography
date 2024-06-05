@@ -18,7 +18,7 @@ First clone the project
 Go the project directory, then install the requirements.txt file
 
 ```bash
-  pip install - requirements.txt
+  pip install -r requirements.txt
 ```
 In the camouflage folder, you can see manage.py file. First, you need to migrate, in order to that follow this:
 ```bash
