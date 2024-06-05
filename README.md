@@ -45,4 +45,17 @@ Then you can run the website by using following command.
 
 ## Images
 
-![Images](media\icons\camouflage.png?raw=true "Title")
+### Home page
+![Home Page](https://i.postimg.cc/25Hhnvz5/screencapture-127-0-0-1-8000-2024-06-05-12-45-05.png)
+
+### Encode Video Page
+![Encode Video](https://i.postimg.cc/CxGWMMw7/screencapture-127-0-0-1-8000-encode-2024-06-05-12-47-50.png)
+
+### Encode Image Page
+![Encode Image](https://i.postimg.cc/6qwNf768/screencapture-127-0-0-1-8000-image-steg-2024-06-05-12-48-36.png)
+
+### Decode Video Page
+![Decode Video](https://i.postimg.cc/RCbRtkPB/screencapture-127-0-0-1-8000-decode-2024-06-05-12-49-08.png)
+
+### Decode Image Page
+![Decode Image](https://i.postimg.cc/QNB6fNKt/screencapture-127-0-0-1-8000-image-decode-image-2024-06-05-12-49-40.png)
