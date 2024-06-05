@@ -13,7 +13,6 @@
 body {
     font-family: 'JetBrains Mono', monospace;
     position: relative;
-    min-height: 250vh;
 }
 
 a {
@@ -190,6 +189,7 @@ nav {
     border: none;
 }
 .top-photo{
+    width: 50%;
     position: relative;
     animation: opacAnimation 1.5s;
 }
