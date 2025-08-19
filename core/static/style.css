@@ -121,9 +121,15 @@ nav {
     justify-content: space-between;
     align-items: center;
     height: 80vh;
+    width: 100%;
 
 }
 
+.top-photo{
+    width: 50%;
+    position: relative;
+    animation: opacAnimation 1.5s;
+}
 .top-info {
     width: 40%;
 }
@@ -188,11 +194,7 @@ nav {
     border-radius: 14px;
     border: none;
 }
-.top-photo{
-    width: 50%;
-    position: relative;
-    animation: opacAnimation 1.5s;
-}
+
 
 .bottom-part {
     width: 100%;
@@ -460,7 +462,7 @@ ul {
     display: none;
     width: 50%;
     position: absolute;
-    top: 10%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, 70%);
     padding: 2em;
