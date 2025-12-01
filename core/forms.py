@@ -1,11 +1,10 @@
 from django import forms
-from . models import Encoding, Decoding
 from django.core.validators import FileExtensionValidator
 
-class EncodeForm(forms.ModelForm):
-    class Meta:
-        model = Encoding
-        fields = ["video", 'secret_key', 'message', 'encoded_file_name']
+class EncodeForm(forms.Form):
+    # class Meta:
+    #     model = Encoding
+    #     fields = ["video", 'secret_key', 'message', 'encoded_file_name']
 
     secret_key = forms.CharField(required=True ,max_length=10)
     message = forms.CharField(required=True, max_length=80)
@@ -28,13 +27,14 @@ class EncodeForm(forms.ModelForm):
         
         return self.cleaned_data
 
-class DecodeForm(forms.ModelForm):
+class DecodeForm(forms.Form):
     # video = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=["MP4", "AVI"])])
     # frame_number = forms.IntegerField(required=True)
     # secret_key = forms.CharField(required=True)
     # encoded_filename = forms.CharField(required=True)
-    class Meta:
-        model = Decoding
-        fields = ["video", 'secret_key']
+    # class Meta:
+    #     model = Decoding
+    #     fields = ["video", 'secret_key']
+    video = forms.FileField(required= True, validators=[FileExtensionValidator(allowed_extensions=["AVI"])])
 
     secret_key = forms.CharField(required=True ,max_length=10)

@@ -3,12 +3,13 @@ import os
 import re
 import time
 from django.shortcuts import redirect, render
-from . models import Encoding
 from . forms import DecodeForm, EncodeForm
 from PIL import Image
 from django.contrib import messages
+from django.core.files.storage import FileSystemStorage
 from moviepy.editor import VideoFileClip
-
+from camouflage import settings
+import gc
 from .RC4.rc4 import RC4
 
 
@@ -48,18 +49,6 @@ def sucess(request):
     return render(request, 'core/sucess.html')
 
 
-def check_message(filename, frame_number, secret_key ,encoded_filename):
-    encoding = Encoding.objects.all()
-    message = ''
-    print(frame_number, secret_key)
-    for object in encoding:
-        if (object.frame_number == frame_number and object.secret_key == secret_key and object.encoded_file_name == encoded_filename):
-            
-            return object.message
-        else:
-            message = 'Cannot found'
-    return message
-    
 
 def about_us(request):
     return render(request, 'core/about.html')
@@ -71,19 +60,22 @@ class Video:
     def read_video_frames(video_path):
         frames = []
         cap = cv2.VideoCapture(video_path)
-        fps = cap.get(cv2.CAP_PROP_FPS)
-        if not cap.isOpened():
-            print("Error: Couldn't open the video file.")
-            return frames, None
-        while True:
-            ret, frame = cap.read()
-            if not ret:
-                break
-            frames.append(frame)
-        cap.release()
-        video_clip = VideoFileClip(video_path)
-        audio = video_clip.audio
-        return frames, audio, fps
+        try:
+            fps = cap.get(cv2.CAP_PROP_FPS)
+            if not cap.isOpened():
+                print("Error: Couldn't open the video file.")
+                return frames, None
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    break
+                frames.append(frame)
+            cap.release()
+            video_clip = VideoFileClip(video_path)
+            audio = video_clip.audio
+            return frames, audio, fps
+        finally:
+            cap.release()
     
     @staticmethod
     def encode(key: str, message: str, frames):
@@ -156,75 +148,96 @@ class Video:
 def encode(request):
     form = EncodeForm(request.POST or None, request.FILES or None)
     context = {'form': form}
+
     if request.method == 'POST':
         if form.is_valid():
             start = time.time()
-            form_list = form.save()
-            file_location = form_list.video.path
+            uploaded_file = form.cleaned_data['video']
+            fs = FileSystemStorage()
+            filename = fs.save(uploaded_file.name, uploaded_file)
+            file_location = fs.path(filename) 
             secret_key = form.cleaned_data['secret_key']
             message = form.cleaned_data['message']
             encoded_filename = form.cleaned_data['encoded_file_name']
             frames, audio, fps = Video.read_video_frames(video_path=file_location)
+
             if frames:
                 encoded_frames = Video.encode(key=secret_key, message=message, frames=frames)
                 if encoded_frames is not None:
-                    output_path = "media/encoded/" + encoded_filename + '.avi'
+                    output_filename = encoded_filename + '.avi'
+                    save_dir = os.path.join(settings.MEDIA_ROOT, 'encoded')
+                    os.makedirs(save_dir, exist_ok=True)
+                    output_path = os.path.join(save_dir, output_filename)
                     Video.write_video(request, frames=encoded_frames, audio=audio, output_path=output_path, fps=fps)
-                    form_list.encoded_file_name = encoded_filename
-                    form_list.encoded_file = output_path
-                    request.session['original_size_video'] =round((os.path.getsize(file_location)/1024**2),2)
-                    request.session['encoded_video'] = "/encoded/" + encoded_filename + '.avi'
-                    form_list.save()
+                    request.session['original_size_video'] = round((os.path.getsize(file_location)/1024**2),2)
+                    request.session['encoded_video'] ="/encoded/" + encoded_filename + '.avi'
                     end = time.time()
-                    completion = round(end - start,2)
+                    completion = round(end - start, 2)
                     request.session['video_completion_time'] = completion
+                    if os.path.exists(file_location):
+                         os.remove(file_location)
                     messages.success(request, 'Your video has been encoded succesfully')
                     return redirect('success')
                 else:
                     messages.error(request, "Error during encoding.")
-                
-        else:
-            return render(request, 'core/encode.html', context)
+            else:
+                 messages.error(request, "Could not read video frames.")
+        
     return render(request, 'core/encode.html', context)
 
-   
 
 def decode(request):
     sent_message = False
     message = ''
-
     error = False
     completion_time = None
     form = DecodeForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         start = time.time()
-        form_list = form.save()
-        file_name = form_list.video.path
+        uploaded_video = form.cleaned_data['video']
+        fs = FileSystemStorage()
+        filename = fs.save(uploaded_video.name, uploaded_video)
+        file_path = fs.path(filename)
         secret_key = form.cleaned_data['secret_key']
-        frames, audio, fps = Video.read_video_frames(video_path=file_name)
-        if frames:
-            # message = check_message(file_name, frame_number, secret_key, encoded_filename)
-            decoded_message = Video.decode(key=secret_key, frames=frames).rstrip(' ')
-            sent_message = True
+        try:
+            frames, audio, fps = Video.read_video_frames(video_path=file_path)
+            if frames:
+                # message = check_message(file_name, frame_number, secret_key, encoded_filename)
+                decoded_message = Video.decode(key=secret_key, frames=frames).rstrip(' ')
+                sent_message = True
 
-            if re.match("^[ -~\s]+$", decoded_message):
-                secret_key = "Secret Key : " + secret_key
-                message = "Your decoded message : " +  decoded_message
-                end = time.time()
-                completion_time = round(end - start,2)
-                lines = [secret_key, message]
-                with open('media/decode.txt', 'w') as f:
-                    for line in lines:
-                        f.write(line)
-                        f.write('\n')
-                sent_message = True
+                if re.match("^[ -~\s]+$", decoded_message):
+                    secret_key = "Secret Key : " + secret_key
+                    message = "Your decoded message : " +  decoded_message
+                    end = time.time()
+                    completion_time = round(end - start,2)
+                    lines = [secret_key, message]
+                    with open('media/decode.txt', 'w') as f:
+                        for line in lines:
+                            f.write(line)
+                            f.write('\n')
+                    sent_message = True
+                else:
+                    error = True
+                    sent_message = True
+                    message = "Might be because of incorrect secret key or the video is not encoded."
             else:
-                error = True
-                sent_message = True
-                message = "Might be because of incorrect secret key or the video is not encoded."
-            form_list.save()
-        else:
-            messages.error(request, f'The given video with frame key cannot be decoded')
+                messages.error(request, f'The given video with frame key cannot be decoded')
+        finally:
+            # --- 3. CLEANUP (Crucial for PermissionError) ---
+            # Delete variables holding file references
+            if 'frames' in locals(): del frames
+            if 'audio' in locals(): del audio
+            
+            # Force garbage collection to release file lock
+            gc.collect()
+            
+            # Delete the temporary video file
+            if os.path.exists(file_path):
+                try:
+                    os.remove(file_path)
+                except PermissionError:
+                    print(f"Warning: Could not delete temp file {file_path}")
     context ={ 'form' : form, 'message' : message, 'error' : error, 'sent_message' : sent_message , 'completion_time' : completion_time}
     return render(request, 'core/decode.html',  context)
 
