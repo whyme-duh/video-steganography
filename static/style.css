@@ -13,7 +13,6 @@
 body {
     font-family: 'JetBrains Mono', monospace;
     position: relative;
-    min-height: 250vh;
 }
 
 a {
@@ -51,11 +50,9 @@ nav {
 }
 .dropdown-menu{
     display: none;
-    background-color:white ;
+    background-color:rgb(254, 254, 254) ;
 }
-.dropdown-menu li{
-    padding: 0.25em;
-}
+
 .dropdown:hover{
     opacity: 0.75;
     cursor: pointer;
@@ -63,6 +60,7 @@ nav {
 .dropdown:hover > .dropdown-menu {
     display: flex;
     flex-direction: column;
+
 }
 .dropdown-menu li{
    padding-inline:1em;
@@ -123,9 +121,15 @@ nav {
     justify-content: space-between;
     align-items: center;
     height: 80vh;
+    width: 100%;
 
 }
 
+.top-photo{
+    width: 50%;
+    position: relative;
+    animation: opacAnimation 1.5s;
+}
 .top-info {
     width: 40%;
 }
@@ -190,10 +194,7 @@ nav {
     border-radius: 14px;
     border: none;
 }
-.top-photo{
-    position: relative;
-    animation: opacAnimation 1.5s;
-}
+
 
 .bottom-part {
     width: 100%;
@@ -387,12 +388,11 @@ input[type="number"] {
 
 .footer {
     position: absolute; 
-    bottom: 0; 
+    bottom: -10; 
     left: 0; 
-    z-index: 10;
     display: flex;
     justify-content: space-around;
-    height: 220px;
+    height: fit-content;
     background-color: rgb(235, 231, 231);
     padding: 40px;
     margin-top:16em;
@@ -462,7 +462,7 @@ ul {
     display: none;
     width: 50%;
     position: absolute;
-    top: 10%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, 70%);
     padding: 2em;
