@@ -11,9 +11,9 @@ from moviepy.editor import VideoFileClip
 from camouflage import settings
 import gc
 from .RC4.rc4 import RC4
+import numpy as np
+import cv2
 
-
-# Create your views here.
 def index(request):
     return render(request, 'core/index.html')
 
@@ -21,27 +21,11 @@ def home(request):
     return render(request, 'core/home.html')
 
 
-
-
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
-import numpy as np
-import cv2
-
-
-# In[2]:
 def error_404_view(request, exception):
     return render(request, 'core/404.html')
 
 def error_500_view(request):
     return render(request, 'core/404.html')
-# it shows the list of the semester
-
-
 
 
 
@@ -224,15 +208,9 @@ def decode(request):
             else:
                 messages.error(request, f'The given video with frame key cannot be decoded')
         finally:
-            # --- 3. CLEANUP (Crucial for PermissionError) ---
-            # Delete variables holding file references
             if 'frames' in locals(): del frames
             if 'audio' in locals(): del audio
-            
-            # Force garbage collection to release file lock
             gc.collect()
-            
-            # Delete the temporary video file
             if os.path.exists(file_path):
                 try:
                     os.remove(file_path)

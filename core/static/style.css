@@ -531,6 +531,8 @@ ul {
     font-size: 0.85em;
     padding-top: 1em;
 }
+
+
 @media only screen and (max-width:1000px){
     *{
         padding: 0;
@@ -579,11 +581,14 @@ ul {
         gap: 4em;
         justify-content: start;
         align-items: center;
+        height: fit-content;
+        padding-bottom: 10em;
     }
-    .top-part img{
+    
+    .top-photo{
         width: 100%;
     }
-    .top-photo{
+    .top-photo img{
         width: 100%;
     }
     .top-info{
@@ -593,7 +598,7 @@ ul {
         text-align: center;
     }
     .top-info h3{
-        font-size: 5em;
+        font-size: 2.5em;
     }
     .bold{
         font-size: 1.25em;
@@ -602,25 +607,42 @@ ul {
         padding-top:1em ;
         font-size: 2em;
     }
-    #pink-button{
-        margin-top: 2em;
-        font-size: 2em;
+    #pink-button, #pink-button-two{
+        font-size: 1.85em;
 
     }
-    .bottom-part{
+  
+    .bottom-part, .bottom-part-two{
+        flex-direction: column;
         padding: 0;
     }
-    .bottom-part h3{
+    .content-right{
+        width: 100%;
+        text-align: justify;
+    }
+    .bottom-part h3, .bottom-part-two h3{
         font-size: 4em;
         text-align: center;
     }
-    .bottom-part p{
+    .bottom-part p, .bottom-part-two p{
         margin-top: 2em;
         font-size: 2em;
     }
+    .bottom-photo{
+        width: 100%;
+    }
     .bottom-photo img{
         width: 100%;
-        height:15vh;
+    }
+    .bottom-part-two{
+        width: 100%;
+    }
+    .bottom-part-two .content-right{
+        width: 100%;
+        text-align: justify;
+    }
+    .bottom-part-two .bottom-photo{
+        width: 100%;
     }
     /* encode  */
     .main{

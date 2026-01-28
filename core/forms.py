@@ -36,5 +36,4 @@ class DecodeForm(forms.Form):
     #     model = Decoding
     #     fields = ["video", 'secret_key']
     video = forms.FileField(required= True, validators=[FileExtensionValidator(allowed_extensions=["AVI"])])
-
     secret_key = forms.CharField(required=True ,max_length=10)
