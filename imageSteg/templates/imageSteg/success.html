@@ -4,7 +4,7 @@
 
 
 
-<div class="main container ">
+<div class="output-container container ">
     {% if request.session.image_location %}
         <!-- <img src="/{{request.session.image_location}}" alt="image-steg" width="500px" height="500px"> -->
         <div class="output-information">
@@ -15,12 +15,12 @@
             <div class="row d-flex flex-row justify-content-between mt-3">
               <div class="original d-flex flex-column col-md-5">
                 <h5>Original Image</h5>
-                <img src="/{{request.session.original_image}}" alt="img" width="350" height="250">
+                <img src="/{{request.session.original_image}}" alt="img"  class="original-img">
                 <p class="pt-2"> <b>Size</b>: {{request.session.original_image_size}} MB</p>
               </div>
               <div class="decode-image d-flex flex-column col-md-5">
                 <h5>Encoded Image</h5>
-                <img src="/{{request.session.image_location}}" alt="img" width="350" height="250">
+                <img src="/{{request.session.image_location}}" alt="img" class="result-img">
                 <p class="pt-2"><b>Size</b>: {{request.session.image_size}} MB</p>
 
               </div>
@@ -35,14 +35,14 @@
               <h5 style="color: rgb(90, 88, 88);" class="mt-md-4">For Video</h5>
               <div class="btn-list d-flex justify-content-evenly">
                 <a href="{% url 'encode' %}" id="pink-button-success">Video Encoding</a>
-                <a href="{% url 'decode'%}" id="pink-button-two-success" class="ms-md-3">Video Decoding</a>
+                <a href="{% url 'decode'%}" id="pink-button-two-success">Video Decoding</a>
               </div>
             </div>
             <div class="image d-flex flex-column w-50 m-2">
               <h5 style="color: rgb(90, 88, 88);" class="mt-md-4">For Image</h5>
               <div class="btn-list d-flex justify-content-evenly">
                 <a href="{% url 'image-steg' %}" id="pink-button-success">Image Encoding</a>
-                <a href="{% url 'image-decode'%}" id="pink-button-two-success" class="ms-md-3">Image Decoding</a>
+                <a href="{% url 'image-decode'%}" id="pink-button-two-success" >Image Decoding</a>
               </div>
             </div>
           </div>

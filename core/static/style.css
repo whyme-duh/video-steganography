@@ -339,7 +339,10 @@ input[type="number"] {
     border-radius: 10px;
     padding-bottom: 1.5em;
 }
-
+.original-img, .result-img{
+    width: 100%;
+    height: 50vh;
+}
 .about {
     display: flex;
     margin-top: 50px;
@@ -549,7 +552,7 @@ ul {
     }
     .logopic{
         width: 100%;
-        height: 3vh;
+        height: 5vh;
     }
     
     nav{
@@ -573,7 +576,9 @@ ul {
         padding: 0;
         margin: 0;
     }
-   
+    #message-container{
+        width: 100%;
+    }
     .top-part{
         width: 100%;
         display: flex;
@@ -656,10 +661,9 @@ ul {
     #encode-message{
         font-size: 2em;
     }
-    label{font-size: 2.5em;}
+    label{font-size: 2dvh;}
    
     input[type="text"]{
-        padding: 1em;
         font-size: 2em;
 
     }
@@ -667,9 +671,7 @@ ul {
         font-size: 0.85em;
 
     }
-    input[type="file"]{
-        height: 100px;
-    }
+    
     form{
         width: 100%;
     }
@@ -677,8 +679,12 @@ ul {
         width: 100%;
     }
     #encode-button{
+        width: 100%;
         margin-top: 2em;
-        font-size: 2.5em;
+        font-size: 2em;
+    }
+    .original-img, .result-img{
+        height: 10vh;
     }
 
     /* about us  */
@@ -688,12 +694,15 @@ ul {
         width: 100%;
     }
     .about_detail{
+        text-align: justify;
         width: 100%;
     }
     .about h2{
         font-size: 4em;
     }
     .about p{
+        text-align: justify;
+        border: 1px solid;
         font-size: 2em;
     }
     .about_picture{
@@ -727,5 +736,24 @@ ul {
     .fa-github{
         padding: 2em;
         font-size: 2em;
+    }
+    
+    .output-information{
+        width: 100%;
+    }
+    .btn-list{
+        display: flex;
+        gap: 1em;
+        flex-direction: column;
+    }
+    #pink-button-success, #pink-button-two-success{
+        padding-inline: 1em;
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        padding-block: 1em;
+    }
+    .decode-container{
+        padding: 5em;
     }
 }
