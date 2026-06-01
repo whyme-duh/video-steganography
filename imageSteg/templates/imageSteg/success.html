@@ -1,54 +1,86 @@
 {% extends 'core/index.html' %}
 
 {% block content %}
+<div class="steg-wrapper">
+  
+  {% if request.session.image_location %}
+  <section class="steg-panel steg-success-panel">
+    <div class="steg-header">
+      <span class="steg-badge">Success</span>
+      <h1 class="steg-title">Image Encoded Successfully</h1>
+      <p class="steg-subtitle">Your hidden message is secured and ready for download.</p>
+    </div>
 
+    <div class="steg-stats-grid" style="grid-template-columns: 1fr;">
+      <div class="steg-stat-card">
+        <span class="steg-stat-label">Completion Time</span>
+        <strong class="steg-stat-value">{{ request.session.completion_time }}s</strong>
+      </div>
+    </div>
 
+    <div class="steg-action-center">
+      <a href="/{{request.session.image_location}}" class="steg-btn steg-btn-primary" download>
+        Download Encoded Image
+      </a>
+    </div>
+  </section>
 
-<div class="output-container container ">
-    {% if request.session.image_location %}
-        <!-- <img src="/{{request.session.image_location}}" alt="image-steg" width="500px" height="500px"> -->
-        <div class="output-information">
-            <div class="card-design d-flex align-items-center justify-content-between  ">
-              <h5><b>Completion Time</b> {{request.session.completion_time}} s</h5>
-              <a href="/{{request.session.image_location}}" class="btn btn-info" download>Download Image</a>
-            </div>
-            <div class="row d-flex flex-row justify-content-between mt-3">
-              <div class="original d-flex flex-column col-md-5">
-                <h5>Original Image</h5>
-                <img src="/{{request.session.original_image}}" alt="img"  class="original-img">
-                <p class="pt-2"> <b>Size</b>: {{request.session.original_image_size}} MB</p>
-              </div>
-              <div class="decode-image d-flex flex-column col-md-5">
-                <h5>Encoded Image</h5>
-                <img src="/{{request.session.image_location}}" alt="img" class="result-img">
-                <p class="pt-2"><b>Size</b>: {{request.session.image_size}} MB</p>
+  <section class="steg-panel">
+    <h2 class="steg-section-title">Result Comparison</h2>
+    
+    <div class="steg-image-comparison">
+      <div class="steg-image-card">
+        <h3 class="steg-feature-title">Original Image</h3>
+        <div class="steg-img-wrapper">
+          <img src="/{{request.session.original_image}}" alt="Original Image" class="steg-preview-img">
+        </div>
+        <div class="steg-stat-card mt-3">
+           <span class="steg-stat-label">Size</span>
+           <strong class="steg-stat-value">{{ request.session.original_image_size }} MB</strong>
+        </div>
+      </div>
 
-              </div>
-              
-            </div>
+      <div class="steg-image-card">
+        <h3 class="steg-feature-title">Encoded Image</h3>
+        <div class="steg-img-wrapper">
+          <img src="/{{request.session.image_location}}" alt="Encoded Image" class="steg-preview-img">
+        </div>
+        <div class="steg-stat-card mt-3">
+           <span class="steg-stat-label">Size</span>
+           <strong class="steg-stat-value">{{ request.session.image_size }} MB</strong>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            
-          </div>
-          <h3 class="mt-5">Available Features:</h3>
-          <div class="other-features d-flex justify-content-evenly w-100">
-            <div class="video d-flex flex-column w-50 m-2">
-              <h5 style="color: rgb(90, 88, 88);" class="mt-md-4">For Video</h5>
-              <div class="btn-list d-flex justify-content-evenly">
-                <a href="{% url 'encode' %}" id="pink-button-success">Video Encoding</a>
-                <a href="{% url 'decode'%}" id="pink-button-two-success">Video Decoding</a>
-              </div>
-            </div>
-            <div class="image d-flex flex-column w-50 m-2">
-              <h5 style="color: rgb(90, 88, 88);" class="mt-md-4">For Image</h5>
-              <div class="btn-list d-flex justify-content-evenly">
-                <a href="{% url 'image-steg' %}" id="pink-button-success">Image Encoding</a>
-                <a href="{% url 'image-decode'%}" id="pink-button-two-success" >Image Decoding</a>
-              </div>
-            </div>
-          </div>
-    {% else %}
-    <h5>nothing</h5>
-    {% endif%}
+  <section class="steg-panel steg-features-panel">
+    <h2 class="steg-section-title">Explore Other Features</h2>
+    <div class="steg-features-grid">
+      <div class="steg-feature-card">
+        <h3 class="steg-feature-title">Video Tools</h3>
+        <div class="steg-button-group">
+          <a href="{% url 'encode' %}" class="steg-btn steg-btn-secondary">Encode</a>
+          <a href="{% url 'decode' %}" class="steg-btn steg-btn-outline">Decode</a>
+        </div>
+      </div>
+      <div class="steg-feature-card">
+        <h3 class="steg-feature-title">Image Tools</h3>
+        <div class="steg-button-group">
+          <a href="{% url 'image-steg' %}" class="steg-btn steg-btn-secondary">Encode</a>
+          <a href="{% url 'image-decode' %}" class="steg-btn steg-btn-outline">Decode</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% else %}
+  <section class="steg-panel text-center">
+    <h2 class="steg-title">No Image Found</h2>
+    <p class="steg-subtitle mb-4">It looks like there is no encoded image in your current session.</p>
+    <a href="{% url 'image-steg' %}" class="steg-btn steg-btn-primary">Go to Image Encoding</a>
+  </section>
+  {% endif %}
+
 </div>
 
 {% endblock %}

@@ -3,9 +3,24 @@
 
 
 
-:root{
+:root {
+  --steg-primary: #C89F7D;     
+  --steg-primary-hover: #A87F5D; 
+  --steg-bg: #FCF9F2;            
+  --steg-card-bg: #FFFFFF;    
+  
+  --steg-text-main: #4A3F35;   
+  --steg-text-muted: #8C7B6D;    
+  --steg-success: #6B8E23;       
+  --steg-border: #E8E0D5;        
+  
+  --steg-shadow-sm: 0 4px 6px -1px rgba(74, 63, 53, 0.08), 0 2px 4px -1px rgba(74, 63, 53, 0.04);
+  --steg-shadow-lg: 0 10px 15px -3px rgba(74, 63, 53, 0.08), 0 4px 6px -2px rgba(74, 63, 53, 0.04);
+  --steg-radius: 16px;
     --title-font-family:'Lato', sans-serif;
+
 }
+
 *{
     box-sizing: border-box;
 }
@@ -757,3 +772,227 @@ ul {
         padding: 5em;
     }
 }
+
+
+.steg-wrapper {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--steg-text-main);
+}
+
+.steg-panel {
+  background-color: var(--steg-card-bg);
+  border-radius: var(--steg-radius);
+  box-shadow: var(--steg-shadow-lg);
+  padding: 3rem 2rem;
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--steg-border);
+}
+
+.steg-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.steg-badge {
+  display: inline-block;
+  background-color: rgba(107, 142, 35, 0.15); 
+  color: var(--steg-success);
+  padding: 0.5rem 1.2rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+.steg-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: var(--steg-text-main);
+}
+
+.steg-subtitle {
+  color: var(--steg-text-muted);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.steg-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.steg-stat-card {
+  background-color: var(--steg-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid var(--steg-border);
+  transition: transform 0.2s ease;
+}
+
+.steg-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--steg-shadow-sm);
+}
+
+.steg-stat-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--steg-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.steg-stat-value {
+  display: block;
+  font-size: 1.8rem;
+  color: var(--steg-primary);
+}
+
+.steg-action-center {
+  text-align: center;
+}
+
+.steg-features-panel {
+  padding: 2.5rem 2rem;
+}
+
+.steg-section-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: var(--steg-text-main);
+}
+
+.steg-features-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .steg-features-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.steg-feature-card {
+  background-color: var(--steg-bg);
+  padding: 2rem;
+  border-radius: var(--steg-radius);
+  text-align: center;
+  border: 1px solid var(--steg-border);
+}
+
+.steg-feature-title {
+  font-size: 1.25rem;
+  margin: 0 0 1.5rem 0;
+  color: var(--steg-text-main);
+}
+
+.steg-button-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.steg-btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.steg-btn-primary {
+  background-color: var(--steg-primary);
+  color: white;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  box-shadow: 0 4px 14px 0 rgba(200, 159, 125, 0.35); 
+}
+
+.steg-btn-primary:hover {
+  background-color: var(--steg-primary-hover);
+  transform: translateY(-2px);
+  color: white;
+}
+
+.steg-btn-secondary {
+  background-color: var(--steg-primary);
+  color: white;
+}
+
+.steg-btn-secondary:hover {
+  background-color: var(--steg-primary-hover);
+  color: white;
+}
+
+.steg-btn-outline {
+  background-color: transparent;
+  color: var(--steg-primary);
+  border-color: var(--steg-primary);
+}
+
+.steg-btn-outline:hover {
+  background-color: var(--steg-primary);
+  color: white;
+}
+.steg-image-comparison {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .steg-image-comparison {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.steg-image-card {
+  background-color: var(--steg-bg);
+  padding: 1.5rem;
+  border-radius: var(--steg-radius);
+  border: 1px solid var(--steg-border);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.steg-img-wrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--steg-border);
+  min-height: 250px;
+}
+
+.steg-preview-img {
+  width:100%;
+  max-height: 350px;
+  object-fit: cover; 
+  display: block;
+  box-shadow: var(--steg-shadow-sm);
+}
+
+.mt-3 { margin-top: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }

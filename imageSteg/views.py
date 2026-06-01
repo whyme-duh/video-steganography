@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from .forms import ImageEncodeForm, DecodeForm
 from PIL import Image, UnidentifiedImageError
 from django.contrib import messages
-from hurry.filesize import size
+from django.conf import settings
 
 def genData(data):
 	newd = []
@@ -68,7 +68,7 @@ def encode_enc(newimg, data):
 			y += 1
 		else:
 			x += 1
-			
+
 def encode(request, files, data):
 	start = time.time()
 	image = Image.open(files, 'r')
@@ -78,9 +78,12 @@ def encode(request, files, data):
 	encode_enc(newimg, data)
 	request.session['image_location'] = ''
 	request.session['image_size'] = ''
-	newimg.save('C:/Users/ritik_yxb9lpe/OneDrive/Documents/python-django-projects/steganography/camouflage/media/encoded/image_encode/encoded.png')
-	request.session['image_location'] = 'media/encoded/image_encode/encoded.png'
-	request.session['image_size'] = round(os.path.getsize('C:/Users/ritik_yxb9lpe/OneDrive/Documents/python-django-projects/steganography/camouflage/media/encoded/image_encode/encoded.png')/1024**2,2)
+	relative_path = 'encoded/image_encode/encoded.png'
+	absolute_path = os.path.join(settings.MEDIA_ROOT, 'encoded', 'image_encode', 'encoded.png')
+	os.makedirs(os.path.dirname(absolute_path), exist_ok=True)
+	newimg.save(absolute_path)
+	request.session['image_location'] = 'media/' + relative_path
+	request.session['image_size'] = round(os.path.getsize(absolute_path) / (1024 ** 2), 2)
 	end = time.time()
 	completion_time = round(end-start,2)
 	messages.success(request, f'Encoded Successfully!')
@@ -118,7 +121,6 @@ def decode(image_file):
 									imgdata.__next__()[:3] +
 									imgdata.__next__()[:3]]
 
-			# string of binary data
 			binstr = ''
 
 			for i in pixels[:8]:
@@ -130,12 +132,12 @@ def decode(image_file):
 			data += chr(int(binstr, 2))
 			if (pixels[-1] % 2 != 0):
 				return data
-			
+
 	except UnidentifiedImageError as e:
 		print("error " ,e)
 		return e.filename
-		
-		
+
+
 def decode_req(request):
 	completion_time = None
 	error = False
@@ -151,7 +153,7 @@ def decode_req(request):
 			data = "Your decoded message is : " + str(decode(encoded_file))
 			if re.match("^[ -~\s]+$", data):
 				sent_message =True
-				with open('media/image_decode.txt', 'w') as f:
+				with open('image_decode.txt', 'w') as f:
 					f.write(data)
 				end = time.time()
 				completion_time = round(end-start,2)
@@ -163,4 +165,3 @@ def decode_req(request):
 				reason = "Might be because of image not being encoded."
 	return render(request, 'imageSteg/imageDecode.html', {'form' : form, 'data' : data, 'sent_message':sent_message, 'error': error, 'completion_time' : completion_time, 'reason' : reason})
 
-			

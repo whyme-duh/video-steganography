@@ -14,7 +14,7 @@
             <form action="" method="POST" enctype="multipart/form-data" id="myform">
                 {% csrf_token %}
                 <div class="form-outline mb-4">
-                    <label class="form-label" >Upload Your Encoded image</label>
+                    <label class="form-label">Upload Your Encoded image</label>
     
                     {% render_field form.encoded_image class="form-control" %}
                     <small style="color:red;font-size: 1em;">{{form.encoded_image.errors}}</small>

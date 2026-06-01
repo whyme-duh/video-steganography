@@ -1,41 +1,58 @@
 {% extends 'core/index.html' %}
 
 {% block content %}
+<div class="steg-wrapper">
 
-
-
-<div class="main container">
-
-  <div class="output-information">
-    <div class="card-design d-flex align-items-center justify-content-between  ">
-      <h5><b>Completion Time</b>: {{request.session.video_completion_time}} s</h5>
-      <a href="/media/{{request.session.encoded_video}}" class="btn btn-info" download>Download Video</a>
+  <section class="steg-panel steg-success-panel">
+    <div class="steg-header">
+      <span class="steg-badge">Success</span>
+      <h1 class="steg-title">Video Encoded Successfully</h1>
+      <p class="steg-subtitle">Your file has been processed and is ready for download.</p>
     </div>
-    
-    <div class="compare d-flex flex-column mt-4">
-      <p><b>Original Video Size</b>: {{request.session.original_size_video}} MB</p>
-      <p><b>Encoded Video Size</b>: {{request.session.encoded_size_video}} MB</p>
-    </div>
-    
-    <!-- hi <object data="{{request.session.encoded_video}}" width="360" height="250"> <param name="src" value="media{{request.session.encoded_video}}"/>
-      <embed type="video/x-ms-wm" src="{{request.session.encoded_video}}" width="360" height="250"></embed>  </object>
-  </div> -->
-  <h5 class="mt-3"><b>Available Features</b>:</h5>
-  <div class="other-features d-flex justify-content-evenly w-100">
-    <div class="video d-flex flex-column w-50 m-2">
-      <h5 style="color: rgb(90, 88, 88);" class="mt-md-4">For Video</h5>
-      <div class="btn-list d-flex justify-content-evenly">
-        <a href="{% url 'encode' %}" id="pink-button-success">Video Encoding</a>
-        <a href="{% url 'decode'%}" id="pink-button-two-success" class="">Video Decoding</a>
+
+    <div class="steg-stats-grid">
+      <div class="steg-stat-card">
+        <span class="steg-stat-label">Completion Time</span>
+        <strong class="steg-stat-value">{{ request.session.video_completion_time }}s</strong>
+      </div>
+      <div class="steg-stat-card">
+        <span class="steg-stat-label">Original Size</span>
+        <strong class="steg-stat-value">{{ request.session.original_size_video }} MB</strong>
+      </div>
+      <div class="steg-stat-card">
+        <span class="steg-stat-label">Encoded Size</span>
+        <strong class="steg-stat-value">{{ request.session.encoded_size_video }} MB</strong>
       </div>
     </div>
-    <div class="image d-flex flex-column w-50 m-2">
-      <h5 style="color: rgb(90, 88, 88);" class="mt-md-4">For Image</h5>
-      <div class="btn-list d-flex justify-content-evenly">
-        <a href="{% url 'image-steg' %}" id="pink-button-success">Image Encoding</a>
-        <a href="{% url 'image-decode'%}" id="pink-button-two-success" class="">Image Decoding</a>
+
+    <div class="steg-action-center">
+      <a href="/media/{{request.session.encoded_video}}" class="steg-btn steg-btn-primary" download>
+        Download Video
+      </a>
+    </div>
+  </section>
+
+  <section class="steg-panel steg-features-panel">
+    <h2 class="steg-section-title">Available Features</h2>
+    
+    <div class="steg-features-grid">
+      <div class="steg-feature-card">
+        <h3 class="steg-feature-title">Video Tools</h3>
+        <div class="steg-button-group">
+          <a href="{% url 'encode' %}" class="steg-btn steg-btn-secondary">Encode</a>
+          <a href="{% url 'decode' %}" class="steg-btn steg-btn-outline">Decode</a>
+        </div>
+      </div>
+
+      <div class="steg-feature-card">
+        <h3 class="steg-feature-title">Image Tools</h3>
+        <div class="steg-button-group">
+          <a href="{% url 'image-steg' %}" class="steg-btn steg-btn-secondary">Encode</a>
+          <a href="{% url 'image-decode' %}" class="steg-btn steg-btn-outline">Decode</a>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
+
 </div>
 {% endblock %}
