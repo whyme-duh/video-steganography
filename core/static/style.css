@@ -440,7 +440,6 @@ ul {
     filter: blur(20px);
 }
 
-/* spiinner */
 #spinner-container{
     display: none;
     position: absolute;
@@ -467,24 +466,17 @@ ul {
     left: 49%;
     font-size: 1em;
 }
-/* for the card design after decoding */
 #card-container{
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 150vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     z-index:1;
-    background-color: rgba(0, 0, 0, 0.902);
 }
 .card{
-    display: none;
     width: 50%;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, 70%);
     padding: 2em;
+
     text-align: center;
     align-items: center;
     z-index: 0;
@@ -494,30 +486,7 @@ ul {
     overflow: hidden;
 }
 
-/* @media only screen and (min-width:1200px) {
-    #card-container{
-        position: absolute;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        height: 150vh;
-        width: 100%;
-        z-index:1;
-        background-color: rgba(0, 0, 0, 0.902);
-    }
-    .card{
-        display: none;
-        width: 50%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 2em;
-        text-align: center;
-        align-items: center;
-        z-index: 0;
-    }
-    
-} */
+
 
 .title{
     display: flex;
@@ -525,32 +494,61 @@ ul {
     width: 100%;
 }
 
-.title .error{
-    font-size: 1.25em;
-    color: red;
+
+.title h5 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.25rem;
 }
-.title .successfully{
-    font-size: 1.25em;
-    color: rgb(0, 255, 38);
-}
-.close-btn{
-    background:none;
+
+.error { color: #dc3545; }
+.successfully { color: #198754; }
+.close-btn {
+    background: transparent;
     border: none;
-    width: fit-content;
-    justify-self: end;
-    font-family: monospace;
-    color: red;
+    font-size: 24px;
+    line-height: 1;
+    color: #adb5bd;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.close-btn:hover {
+    color: #212529;
 }
 
-.message{
-    padding-top: 1em;
-    font-size: 1em;
-}
-.reason{
-    font-size: 0.85em;
-    padding-top: 1em;
+.completion-time {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
 }
 
+.message {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    color: #212529;
+    font-weight: 500;
+    margin: 15px 0;
+    word-break: break-word; 
+    border: 1px solid #e9ecef;
+}
+
+.reason {
+    color: #dc3545;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.btns-group {
+    gap: 10px;
+}
+
+@media (max-width: 576px) {
+    .btns-group a {
+        width: 100% !important; 
+        margin-top: 10px !important;
+    }
+}
 
 @media only screen and (max-width:1000px){
     *{
@@ -997,3 +995,5 @@ ul {
 
 .mt-3 { margin-top: 1rem; }
 .mb-4 { margin-bottom: 1.5rem; }
+
+
