@@ -65,6 +65,7 @@ nav {
 }
 .dropdown-menu{
     display: none;
+    z-index:1000;
     background-color:rgb(254, 254, 254) ;
 }
 
@@ -144,6 +145,7 @@ nav {
 .top-photo{
     width: 50%;
     position: relative;
+    z-index:-100;
     animation: opacAnimation 1.5s;
 }
 .top-info {

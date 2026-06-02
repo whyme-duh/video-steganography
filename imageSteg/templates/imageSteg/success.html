@@ -31,9 +31,9 @@
     <div class="steg-image-comparison">
       <div class="steg-image-card">
         <h3 class="steg-feature-title">Original Image</h3>
-        <div class="steg-img-wrapper">
+        <!-- <div class="steg-img-wrapper">
           <img src="/{{request.session.original_image}}" alt="Original Image" class="steg-preview-img">
-        </div>
+        </div> -->
         <div class="steg-stat-card mt-3">
            <span class="steg-stat-label">Size</span>
            <strong class="steg-stat-value">{{ request.session.original_image_size }} MB</strong>
@@ -42,9 +42,9 @@
 
       <div class="steg-image-card">
         <h3 class="steg-feature-title">Encoded Image</h3>
-        <div class="steg-img-wrapper">
+        <!-- <div class="steg-img-wrapper">
           <img src="/{{request.session.image_location}}" alt="Encoded Image" class="steg-preview-img">
-        </div>
+        </div> -->
         <div class="steg-stat-card mt-3">
            <span class="steg-stat-label">Size</span>
            <strong class="steg-stat-value">{{ request.session.image_size }} MB</strong>
